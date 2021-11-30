@@ -8,7 +8,7 @@
             d="M4.293,18.293,10.586,12,4.293,5.707A1,1,0,0,1,5.707,4.293L12,10.586l6.293-6.293a1,1,0,1,1,1.414,1.414L13.414,12l6.293,6.293a1,1,0,1,1-1.414,1.414L12,13.414,5.707,19.707a1,1,0,0,1-1.414-1.414Z"></path>
         </svg>
       </div>
-      <div class="loginBlock"><a class="button-login" href="/login">Личный кабинет</a>
+      <div class="loginBlock"><router-link class="button-login" to="/login">Личный кабинет</router-link>
         <div class="block"></div>
         <div class="text">
           <li>Уже</li>
@@ -18,7 +18,7 @@
           <li>вам в</li>
         </div>
       </div>
-      <div class="registerBlock"><a class="button-register" href="#">Присоедениться</a>
+      <div class="registerBlock"><router-link class="button-register" to="#">Присоедениться</router-link>
         <div class="text">
           <li>если</li>
           <li>ещё не</li>
