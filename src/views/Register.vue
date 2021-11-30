@@ -1,37 +1,39 @@
 <template>
-    <form id="login" class="login-form">
-      <h2 class="text">Авторизация</h2>
-      <input type="email" name="email" placeholder="Электронная почта" required><br>
-      <input type="password" name="password" placeholder="Пароль" required><br>
-      <input type="button" onclick="login();" value="Войти"><br>
-      <router-link to="/forgot-password">Забыли пароль?</router-link><br>
-      <router-link to="/register">Нет аккаунта?</router-link>
-    </form>
-
+  <form id="register" class="register-form">
+    <h2 class="text">Регистрация</h2>
+    <input type="text" name="personal_data" placeholder="Фамилия Имя Отчество" required><br>
+    <input type="tel" name="phone" placeholder="Номер телефона" required><br>
+    <input type="text" name="oms" placeholder="Номер полиса ОМС" required><br>
+    <input type="email" name="email" placeholder="Электронная почта" required><br>
+    <input type="password" name="password" placeholder="Пароль" required><br>
+    <input type="password" name="password_r" placeholder="Повторите пароль" required><br>
+    <input type="button" value="Зарегестрироваться"><br>
+    <router-link to="login">Уже есть аккаунта?</router-link>
+  </form>
 </template>
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Register'
 }
 </script>
 
 <style>
-.login-form{
+.register-form{
   position: absolute;
   width: 800px;
-  height: 600px;
+  height: 720px;
   left: calc(50% - 800px/2);
-  top: calc(50% - 600px/2);
+  top: calc(50% - 720px/2);
   background: white;
   box-shadow: 0px 4px 8px 0px rgba(34, 60, 80, 0.2);
   text-align: center;
 }
 
-.login-form input{
+.register-form input{
   font-family: Roboto;
   font-size: 35px;
-  margin-top: 25px;
+  margin-top: 15px;
   width: 450px;
   height: 65px;
   text-align: center;
@@ -44,15 +46,15 @@ export default {
   transition: 1s;
 }
 
-.login-form input::placeholder{
+.register-form input::placeholder{
   color: var(--main-color);
 }
 
-.login-form input:focus::placeholder{
+.register-form input:focus::placeholder{
   color: var(--second-color);
 }
 
-.login-form input:focus{
+.register-form input:focus{
   border-radius: 0px;
   border-color: var(--main-color);
   outline: none;
@@ -61,19 +63,20 @@ export default {
   background: var(--main-color);
 }
 
-.login-form .text{
+.register-form .text{
   font-family: Roboto;
-  margin-top: 75px;
+  margin-top: 20px;
+  margin-bottom: 0px;
   color: var(--main-color);
   font-size: 48px;
 }
 
-.login-form input[type="submit" i]{
+.register-form input[type="submit" i]{
   background-color: white;
   transition: 2s;
 }
 
-.login-form input[type="submit" i]:hover{
+.register-form input[type="submit" i]:hover{
   transition: 2s;
   background-color: var(--main-color);
   color:white;
@@ -91,7 +94,7 @@ export default {
   font-style: normal;
 }
 
-.login-form input[type="password" i]{
+.register-form input[type="password" i]{
   font-family: "tooth";
   font-style: normal;
   font-weight: normal;
@@ -104,7 +107,7 @@ export default {
   text-transform: none;
 }
 
-.login-form a{
+.register-form a{
   font-family: Roboto;
   text-decoration: var(--second-color) solid;
   text-decoration-line: underline;
@@ -113,8 +116,9 @@ export default {
   transition: 1s;
 }
 
-.login-form a:hover{
+.register-form a:hover{
   color: var(--main-color);
   transition: 1s;
 }
+
 </style>

@@ -18,7 +18,7 @@
           <li>вам в</li>
         </div>
       </div>
-      <div class="registerBlock"><router-link class="button-register" to="#">Присоедениться</router-link>
+      <div class="registerBlock"><router-link class="button-register" to="/register">Присоедениться</router-link>
         <div class="text">
           <li>если</li>
           <li>ещё не</li>
