@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import ModalWindow from '@/components/ModalWindowHome'
+import ModalWindow from '@/components/ModalWindowLanding'
 
 export default {
   name: 'IndexPage',

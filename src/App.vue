@@ -1,6 +1,8 @@
 <template>
   <navigation></navigation>
-  <router-view/>
+  <div class="container">
+    <router-view/>
+  </div>
 </template>
 
 <script>
@@ -15,6 +17,10 @@ export default {
   font-family: Roboto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.container{
+  width: 1440px;
+  margin-left: calc(50% - 1440px / 2);
 }
 
 a{

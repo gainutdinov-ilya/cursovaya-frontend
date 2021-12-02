@@ -1,13 +1,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '@/views/Home.vue'
-import Login from '@/views/Login'
-import Register from '@/views/Register'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/Home.vue')
+    }
   },
   {
     path: '/about',
@@ -22,12 +21,23 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/Login.vue')
+    }
   },
   {
     path: '/register',
     name: 'Register',
-    component: Register
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/Register.vue')
+    }
+  },
+  {
+    path: '/appointment',
+    name: 'Appointment',
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/Appointment.vue')
+    }
   }
 ]
 
