@@ -36,4 +36,23 @@ a:hover{
   --another-color: #81D9C7;
 }
 
+.pointer{
+  cursor: pointer;
+}
+
+.size-3{
+  font-size: 3em;
+}
+.size-2{
+  font-size: 2em;
+}
+
+.primary-text{
+  color: var(--main-color);
+}
+
+.secondary-text{
+  color: var(--second-color);
+}
+
 </style>
