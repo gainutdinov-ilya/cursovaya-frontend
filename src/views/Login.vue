@@ -1,18 +1,37 @@
 <template>
-    <form id="login" class="login-form">
+    <form action="#" id="login" class="login-form" @submit.prevent="login">
       <h2 class="text">Авторизация</h2>
-      <input type="email" name="email" placeholder="Электронная почта" required><br>
-      <input type="password" name="password" placeholder="Пароль" required><br>
-      <input type="button" onclick="login();" value="Войти"><br>
+      <input type="email" name="email" placeholder="Электронная почта" required v-model="email"><br>
+      <input type="password" name="password" placeholder="Пароль" required v-model="password" ><br>
+      <input type="submit" value="Войти"><br>
       <router-link to="/forgot-password">Забыли пароль?</router-link><br>
       <router-link to="/register">Нет аккаунта?</router-link>
     </form>
-
 </template>
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  data (){
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods:{
+    login() {
+      this.$store.dispatch('authorize',{
+        email: this.email,
+        password: this.password
+      })
+        .then(() => {
+          this.$router.push({name: 'Home'})
+        })
+        .catch(() =>{
+          alert("Неверный логин или пароль")
+        });
+    }
+  }
 }
 </script>
 

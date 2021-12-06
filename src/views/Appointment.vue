@@ -3,7 +3,7 @@
   <p class="secondary-text size-2">В таблице указано количество свободных талонов у врача на определённый день. Нажмите на число талонов, чтобы выбрать время для записи</p>
   <table class="appointment">
     <tr>
-      <td>Дата</td>
+      <td></td>
       <td v-for="time in times" :key="time.value">{{time.value}}</td>
     </tr>
     <tr v-for="doc in doctors" :key="doc.name">
