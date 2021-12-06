@@ -1,4 +1,4 @@
-# cursovaya-frontend
+# vue
 
 ## Project setup
 ```
