@@ -17,7 +17,21 @@ export default {
   name: 'Register',
   methods: {
     register(){
-      
+      const fio = this.fio.split(' ');
+      if(fio.length!= 3){
+        alert("Введите Фамилию Имя Отчество")
+        return 0
+      }
+      fio.forEach(element => {
+        if(element == ''){
+          alert("Введите Фамилию Имя Отчество")
+          return 0
+        }
+      })
+      const surname = fio[0]
+      const name = fio[1]
+      const second_name = fio[2]
+
     }
   }
 }
