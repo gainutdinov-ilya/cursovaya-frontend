@@ -17,11 +17,13 @@
     <h2 v-else-if=" credentials.role == 'admin' " class="role">Администратор</h2>
     <h2 v-else-if=" credentials.role == 'personal' " class="role">Персонал</h2>
     <h2 v-else-if=" credentials.role == 'doctor' " class="role">Врач</h2>
-    <h3 class="personal">Фамилия: {{credentials.surname}}</h3>
-    <h3 class="personal">Имя: {{credentials.name}}</h3>
-    <h3 class="personal">Отчество: {{credentials.second_name}}</h3>
-    <button type="button" @click="logout()">Выйти</button><br>
-    <router-link to="/appointment">Запись к врачу</router-link>
+    <span class="personal">Фамилия: {{credentials.surname}}</span><br>
+    <span class="personal">Имя: {{credentials.name}}</span><br>
+    <span class="personal">Отчество: {{credentials.second_name}}</span><br>
+    <div v-if="credentials.role == 'client'">
+      <router-link class="action" to="/appointment">Запись к врачу</router-link><br>
+    </div>
+    <span class="action" @click="logout()">Выйти</span>
   </div>
 </template>
 
@@ -131,4 +133,42 @@ export default {
   top: 255px;
 }
 
+.profile h2{
+  margin: 0;
+}
+
+.profile {
+  margin-top: 30px;
+  margin-left: 30px;
+  height: 80vh;
+}
+
+.profile .role {
+  color: var(--main-color);
+  font-size: 3em;
+}
+
+.profile .personal {
+  display: inline-block;
+  color: var(--second-color);
+  font-size: 2.5em;
+  margin-top: 10px;
+}
+
+.profile .action {
+  display: inline-block;
+  border: none;
+  background: var(--another-color);
+  box-sizing: content-box;
+  color: var(--second-color);
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 56px;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+
+}
 </style>

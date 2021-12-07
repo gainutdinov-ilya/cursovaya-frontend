@@ -1,20 +1,25 @@
 <template>
-  <form id="register" class="register-form">
+  <form id="register" class="register-form" @submit.prevent="register()">
     <h2 class="text">Регистрация</h2>
-    <input type="text" name="personal_data" placeholder="Фамилия Имя Отчество" required><br>
-    <input type="tel" name="phone" placeholder="Номер телефона" required><br>
-    <input type="text" name="oms" placeholder="Номер полиса ОМС" required><br>
-    <input type="email" name="email" placeholder="Электронная почта" required><br>
-    <input type="password" name="password" placeholder="Пароль" required><br>
-    <input type="password" name="password_r" placeholder="Повторите пароль" required><br>
-    <input type="button" value="Зарегестрироваться"><br>
+    <input v-model="fio" type="text" name="personal_data" placeholder="Фамилия Имя Отчество" required><br>
+    <input v-model="phone" type="tel" name="phone" placeholder="Номер телефона" required><br>
+    <input v-model="oms" type="text" name="oms" placeholder="Номер полиса ОМС" required><br>
+    <input v-model="email" type="email" name="email" placeholder="Электронная почта" required><br>
+    <input v-model="password" type="password" name="password" placeholder="Пароль" required><br>
+    <input v-model="password_repeated" type="password" name="password_r" placeholder="Повторите пароль" required><br>
+    <input type="submit" value="Зарегестрироваться"><br>
     <router-link to="login">Уже есть аккаунта?</router-link>
   </form>
 </template>
 
 <script>
 export default {
-  name: 'Register'
+  name: 'Register',
+  methods: {
+    register(){
+      
+    }
+  }
 }
 </script>
 
