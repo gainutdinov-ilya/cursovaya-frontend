@@ -28,9 +28,6 @@ export default {
           return 0
         }
       })
-      const surname = fio[0]
-      const name = fio[1]
-      const second_name = fio[2]
 
     }
   }

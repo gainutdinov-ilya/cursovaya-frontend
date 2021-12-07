@@ -1,6 +1,10 @@
 import { createStore } from 'vuex'
 import axios from "axios";
 
+if(localStorage.getItem('accessToken') != null)
+  axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+
+const instance = axios.create({baseURL:'http://127.0.0.1:80'});
 
 export default createStore({
   state: {
@@ -33,7 +37,6 @@ export default createStore({
   actions: {
     authorize(context, credentials){
       return new Promise((resolve, reject) => {
-        const instance = axios.create({baseURL:'http://127.0.0.1:80'});
         instance.post('/api/login',{
           'email': credentials.email,
           'password': credentials.password
@@ -41,6 +44,7 @@ export default createStore({
             .then(response => {
               localStorage.setItem('accessToken', response.data.access_token)
               context.commit('setToken', response.data.access_token)
+              axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken')
               resolve(response)
             })
             .catch(error =>{
@@ -51,14 +55,15 @@ export default createStore({
     },
     logout(context){
       localStorage.removeItem('accessToken')
+      instance.post('/api/logout',{headers:{
+          'Authorization': `Bearer ${this.state.token}`
+        }});
+
       context.commit('removeToken')
     },
     getCredentials(){
       return new Promise( (resolve , reject) => {
-        const instance = axios.create({baseURL:'http://127.0.0.1:80'});
-        instance.get('/api/user',{headers:{
-            'Authorization': `Bearer ${this.state.token}`
-          }})
+        instance.get('/api/user')
             .then(response =>{
               resolve(response.data)
             })
@@ -66,7 +71,14 @@ export default createStore({
               reject(error)
             })
       })
+    },
+    register(credentials){
+
+      new
+      instance.post('/api/register', credentials)
+          .then()
     }
+
 
   },
   modules: {
