@@ -74,7 +74,6 @@ export default createStore({
       })
     },
     register(context, data){
-      console.log(data)
       return new Promise((resolve, reject)=> {
         instance.post('/api/register', {
           'name': data.name,
@@ -93,6 +92,22 @@ export default createStore({
           })
       })
     },
+    updateCreditanials(context, data){
+      return new Promise((resolve, reject)=>{
+        instance.put('/api/user', {
+          'name': data.name,
+          'surname': data.surname,
+          'second_name': data.second_name
+        })
+            .then(response => {
+              resolve(response)
+            })
+            .catch(error => {
+              reject(error)
+            })
+      })
+
+    }
   },
 
   modules: {

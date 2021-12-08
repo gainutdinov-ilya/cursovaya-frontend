@@ -13,13 +13,40 @@
     <img :src="require('@/assets/landing.jpg')" alt="" class="landing-image" v-bind:height='520' v-bind:width='520'>
   </div>
   <div v-else class="profile">
-    <h2 v-if="credentials.role == 'client' " class="role">Клиент</h2>
-    <h2 v-else-if=" credentials.role == 'admin' " class="role">Администратор</h2>
-    <h2 v-else-if=" credentials.role == 'personal' " class="role">Персонал</h2>
-    <h2 v-else-if=" credentials.role == 'doctor' " class="role">Врач</h2>
-    <span class="personal">Фамилия: {{credentials.surname}}</span><br>
-    <span class="personal">Имя: {{credentials.name}}</span><br>
-    <span class="personal">Отчество: {{credentials.second_name}}</span><br>
+    <h2 v-if="credentials.role == 'client'" class="role">Клиент</h2>
+    <h2 v-else-if="credentials.role == 'admin'" class="role">Администратор</h2>
+    <h2 v-else-if="credentials.role == 'personal'" class="role">Персонал</h2>
+    <h2 v-else-if="credentials.role == 'doctor'" class="role">Врач</h2>
+    <span class="personal">Фамилия: </span>
+    <span v-if="!onEditSurname" @click="lastEdited = 'surname'; onEditSurname = true; cache = credentials.surname" class="personal">{{credentials.surname}}</span>
+    <input v-else
+           @blur="onEditSurname = false; saveCredentials"
+           @keydown.enter="onEditSurname = false; saveCredentials"
+           @keydown.esc="onEditSurname = false; credentials.surname = cache"
+           type="text"
+           v-model="credentials.surname"
+    >
+    <br>
+    <span class="personal">Имя: </span>
+    <span v-if="!onEditName" @click="lastEdited = 'name'; onEditName = true; cache = credentials.name" class="personal">{{credentials.name}}</span>
+    <input v-else
+           @blur="onEditName = false; saveCredentials()"
+           @keydown.enter="onEditName = false; saveCredentials()"
+           @keydown.esc="onEditName = false; credentials.name = cache"
+           type="text"
+           v-model="credentials.name"
+    >
+    <br>
+    <span class="personal">Отчество: </span>
+    <span v-if="!onEditSecName" @dblclick="lastEdited = 'secName' ;onEditSecName = true; cache = credentials.second_name" class="personal">{{credentials.second_name}}</span>
+    <input v-else
+           @blur="onEditSecName = false; saveCredentials()"
+           @keydown.enter="onEditSecName = false; saveCredentials()"
+           @keydown.esc="onEditSecName = false; credentials.second_name = cache"
+           type="text"
+           v-model="credentials.second_name"
+    >
+    <br>
     <div v-if="credentials.role == 'client'">
       <router-link class="action" to="/appointment">Запись к врачу</router-link><br>
     </div>
@@ -35,11 +62,16 @@ export default {
   components: {
     ModalWindow
   },
-  data() {
+  data: function () {
     return {
       credentials: {
 
-      }
+      },
+      onEditName: false,
+      onEditSurname: false,
+      onEditSecName: false,
+      cache: null,
+      lastEdited: null
     }
   },
   methods: {
@@ -49,6 +81,17 @@ export default {
     logout: function (){
       this.$store.dispatch('logout')
       this.$router.push({name: 'Login'})
+    },
+    saveCredentials: function (){
+      if(this.lastEdited === 'name' && this.credentials.name === this.cache
+          ||
+          this.lastEdited === 'surname' && this.credentials.surname === this.cache
+          ||
+          this.lastEdited === 'secName' && this.credentials.second_name === this.cache
+      ){
+        return
+      }
+      this.$store.dispatch('updateCreditanials', this.credentials)
     }
   },
   computed: {
