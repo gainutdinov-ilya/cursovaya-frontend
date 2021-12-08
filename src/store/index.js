@@ -44,7 +44,6 @@ export default createStore({
             .then(response => {
               localStorage.setItem('accessToken', response.data.access_token)
               context.commit('setToken', response.data.access_token)
-              axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken')
               resolve(response)
             })
             .catch(error =>{
@@ -63,7 +62,9 @@ export default createStore({
     },
     getCredentials(){
       return new Promise( (resolve , reject) => {
-        instance.get('/api/user')
+        instance.get('/api/user',{headers:{
+            'Authorization': `Bearer ${this.state.token}`
+          }})
             .then(response =>{
               resolve(response.data)
             })
@@ -72,15 +73,28 @@ export default createStore({
             })
       })
     },
-    register(credentials){
-
-      new
-      instance.post('/api/register', credentials)
-          .then()
-    }
-
-
+    register(context, data){
+      console.log(data)
+      return new Promise((resolve, reject)=> {
+        instance.post('/api/register', {
+          'name': data.name,
+          'surname': data.surname,
+          'second_name': data.second_name,
+          'phone_number': data.phone_number,
+          'oms': data.oms,
+          'password': data.password,
+          'email': data.email
+        })
+          .then(response=>{
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
   },
+
   modules: {
   }
 })

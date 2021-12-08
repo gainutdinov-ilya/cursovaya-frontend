@@ -18,16 +18,39 @@ export default {
   methods: {
     register(){
       const fio = this.fio.split(' ');
-      if(fio.length!= 3){
+      if(fio.length != 3){
         alert("Введите Фамилию Имя Отчество")
         return 0
       }
       fio.forEach(element => {
-        if(element == ''){
+        if(element === ''){
           alert("Введите Фамилию Имя Отчество")
           return 0
         }
       })
+      if(this.password !== this.password_repeated){
+        alert("Введёные пароли не совпадают")
+        return 0
+      }
+      const name = fio[1]
+      const surname = fio[0]
+      const second_name = fio[2]
+      const creditanials = {
+        name: name,
+        surname: surname,
+        second_name: second_name,
+        oms: this.oms,
+        password: this.password,
+        email: this.email,
+        phone_number: this.phone
+      }
+      this.$store.dispatch('register', creditanials)
+        .then(response =>{
+          alert(response)
+        })
+        .catch(error => {
+          alert(error)
+        })
 
     }
   }
