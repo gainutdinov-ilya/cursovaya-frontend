@@ -12,7 +12,11 @@ export default createStore({
     credentials: {
       name: null,
       surname: null,
-      second_name: null
+      second_name: null,
+      oms: null,
+      phone_number: null,
+      role: localStorage.getItem('role') || null,
+      email: null
     }
   },
   getters:{
@@ -24,14 +28,43 @@ export default createStore({
     },
     token(state){
       return state.token
+    },
+    isAdmin(state){
+      return state.credentials.role === 'admin'
+    },
+    getCredentials(state){
+      return state.credentials
     }
   },
   mutations: {
     setToken(state, token){
       state.token = token
     },
+    setRole(state, role){
+      state.credentials.role = role
+    },
     removeToken(state){
       state.token = null
+    },
+    logout(state){
+      state.credentials = {
+        name: null,
+        surname: null,
+        second_name: null,
+        oms: null,
+        phone_number: null,
+        role: null,
+        email: null
+      }
+    },
+    setCredentials(state, credentials){
+      state.credentials.role = credentials.role
+      state.credentials.email = credentials.email
+      state.credentials.name = credentials.name
+      state.credentials.surname = credentials.surname
+      state.credentials.second_name = credentials.second_name
+      state.credentials.oms = credentials.oms
+      state.credentials.phone_number = credentials.phone_number
     }
   },
   actions: {
@@ -43,7 +76,9 @@ export default createStore({
         })
             .then(response => {
               localStorage.setItem('accessToken', response.data.access_token)
+
               context.commit('setToken', response.data.access_token)
+
               resolve(response)
             })
             .catch(error =>{
@@ -54,18 +89,24 @@ export default createStore({
     },
     logout(context){
       localStorage.removeItem('accessToken')
+      localStorage.removeItem('role')
+
+      context.commit('logout')
       instance.post('/api/logout',{headers:{
           'Authorization': `Bearer ${this.state.token}`
         }});
 
       context.commit('removeToken')
     },
-    getCredentials(){
+    getCredentials(context){
       return new Promise( (resolve , reject) => {
         instance.get('/api/user',{headers:{
             'Authorization': `Bearer ${this.state.token}`
           }})
             .then(response =>{
+              context.commit('setCredentials', response.data)
+              localStorage.setItem('role', response.data.role)
+              context.commit('setRole', response.data.role)
               resolve(response.data)
             })
             .catch(error =>{
@@ -97,7 +138,9 @@ export default createStore({
         instance.put('/api/user', {
           'name': data.name,
           'surname': data.surname,
-          'second_name': data.second_name
+          'second_name': data.second_name,
+          'phone_number': data.phone_number,
+          'oms': data.oms,
         })
             .then(response => {
               resolve(response)
@@ -107,6 +150,32 @@ export default createStore({
             })
       })
 
+    },
+    getUsersCount(){
+      return new Promise((resolve)=>{
+        instance.get('/api/usersCount',{headers:{
+            'Authorization': `Bearer ${this.state.token}`
+          }})
+            .then( response =>{
+            resolve(response.data)
+            });
+      })
+    },
+    getUsers(context, count, offset){
+      return new Promise((resolve)=>{
+        instance.get('/api/users',
+            {data:
+                  {
+                    'offset': offset,
+                    'limit': count,
+                  },
+        headers: {
+          'Authorization': `Bearer ${this.state.token}`
+        }})
+            .then( response =>{
+              resolve(response.data)
+            });
+      })
     }
   },
 

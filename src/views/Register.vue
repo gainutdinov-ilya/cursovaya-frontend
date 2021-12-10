@@ -2,8 +2,8 @@
   <form id="register" class="register-form" @submit.prevent="register()">
     <h2 class="text">Регистрация</h2>
     <input v-model="fio" type="text" name="personal_data" placeholder="Фамилия Имя Отчество" required><br>
-    <input v-model="phone" type="tel" name="phone" placeholder="Номер телефона" required><br>
-    <input v-model="oms" type="text" name="oms" placeholder="Номер полиса ОМС" required><br>
+    <input v-model="phone" type="tel" name="phone" placeholder="Номер телефона" minlength="10" maxlength="11" required><br>
+    <input v-model="oms" type="text" name="oms" placeholder="Номер полиса ОМС" minlength="15" maxlength="16" required><br>
     <input v-model="email" type="email" name="email" placeholder="Электронная почта" required><br>
     <input v-model="password" type="password" name="password" placeholder="Пароль" required><br>
     <input v-model="password_repeated" type="password" name="password_r" placeholder="Повторите пароль" required><br>

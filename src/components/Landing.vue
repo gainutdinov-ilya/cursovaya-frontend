@@ -8,49 +8,107 @@
         <li>И звонков</li>
         <li>Всё очень просто!</li>
       </div>
-      <button type="button" @click="open()">Запишись онлайн</button>
+      <button type="button" @dblclick="open()">Запишись онлайн</button>
     </div>
     <img :src="require('@/assets/landing.jpg')" alt="" class="landing-image" v-bind:height='520' v-bind:width='520'>
   </div>
-  <div v-else class="profile">
-    <h2 v-if="credentials.role == 'client'" class="role">Клиент</h2>
-    <h2 v-else-if="credentials.role == 'admin'" class="role">Администратор</h2>
-    <h2 v-else-if="credentials.role == 'personal'" class="role">Персонал</h2>
-    <h2 v-else-if="credentials.role == 'doctor'" class="role">Врач</h2>
-    <span class="personal">Фамилия: </span>
-    <span v-if="!onEditSurname" @click="lastEdited = 'surname'; onEditSurname = true; cache = credentials.surname" class="personal">{{credentials.surname}}</span>
-    <input v-else
-           @blur="onEditSurname = false; saveCredentials"
-           @keydown.enter="onEditSurname = false; saveCredentials"
-           @keydown.esc="onEditSurname = false; credentials.surname = cache"
-           type="text"
-           v-model="credentials.surname"
-    >
-    <br>
-    <span class="personal">Имя: </span>
-    <span v-if="!onEditName" @click="lastEdited = 'name'; onEditName = true; cache = credentials.name" class="personal">{{credentials.name}}</span>
-    <input v-else
-           @blur="onEditName = false; saveCredentials()"
-           @keydown.enter="onEditName = false; saveCredentials()"
-           @keydown.esc="onEditName = false; credentials.name = cache"
-           type="text"
-           v-model="credentials.name"
-    >
-    <br>
-    <span class="personal">Отчество: </span>
-    <span v-if="!onEditSecName" @dblclick="lastEdited = 'secName' ;onEditSecName = true; cache = credentials.second_name" class="personal">{{credentials.second_name}}</span>
-    <input v-else
-           @blur="onEditSecName = false; saveCredentials()"
-           @keydown.enter="onEditSecName = false; saveCredentials()"
-           @keydown.esc="onEditSecName = false; credentials.second_name = cache"
-           type="text"
-           v-model="credentials.second_name"
-    >
-    <br>
-    <div v-if="credentials.role == 'client'">
-      <router-link class="action" to="/appointment">Запись к врачу</router-link><br>
+  <div v-else class="screen">
+    <div class="profile">
+      <h2 v-if="credentials.role == 'client'" class="role">Клиент</h2>
+      <h2 v-else-if="credentials.role == 'admin'" class="role">Администратор</h2>
+      <h2 v-else-if="credentials.role == 'personal'" class="role">Персонал</h2>
+      <h2 v-else-if="credentials.role == 'doctor'" class="role">Врач</h2>
+      <div>
+        <span class="personal">Фамилия:</span>
+        <div tool-tip="Кликните на то что хотите изменить" class="pointer personal personal-action tool-tip" v-if="!onEditSurname" @click="lastEdited = 'surname'; onEditSurname = true; cache = credentials.surname">{{credentials.surname}}</div>
+        <input
+            tool-tip="Кликните на то что хотите изменить"
+            class="personal personal-action-selected tool-tip"
+            v-else
+            @blur="onEditSurname = false; saveCredentials()"
+            @keydown.enter="onEditSurname = false; saveCredentials()"
+            @keydown.esc="onEditSurname = false; credentials.surname = cache"
+            type="text"
+            v-model="credentials.surname"
+            v-focus
+        >
+        <br>
+      </div>
+      <div>
+        <span class="personal">Имя: </span>
+        <div class="pointer personal personal-action" v-if="!onEditName" @click="lastEdited = 'name'; onEditName = true; cache = credentials.name">{{credentials.name}}</div>
+        <input v-else
+               class="personal personal-action-selected"
+               @blur="onEditName = false; saveCredentials()"
+               @keydown.enter="onEditName = false; saveCredentials()"
+               @keydown.esc="onEditName = false; credentials.name = cache"
+               type="text"
+               v-model="credentials.name"
+               v-focus
+        >
+        <br>
+      </div>
+      <div>
+        <span class="personal">Отчество: </span>
+        <div class="pointer personal personal-action" v-if="!onEditSecName" @click="lastEdited = 'secName' ;onEditSecName = true; cache = credentials.second_name" >{{credentials.second_name}}</div>
+        <input v-else
+               class="personal personal-action-selected"
+               @blur="onEditSecName = false; saveCredentials()"
+               @keydown.enter="onEditSecName = false; saveCredentials()"
+               @keydown.esc="onEditSecName = false; credentials.second_name = cache"
+               type="text"
+               v-model="credentials.second_name"
+               v-focus
+        >
+        <br>
+      </div>
+      <div>
+        <span class="personal">Мобильный телефон: </span>
+        <div class="pointer personal personal-action" v-if="!onEditPhone" @click="lastEdited = 'phone' ;onEditPhone = true; cache = credentials.phone_number" >{{credentials.phone_number}}</div>
+        <input v-else
+               v-focus
+               class="personal personal-action-selected"
+               @blur="onEditPhone = false; saveCredentials()"
+               @keydown.enter="onEditPhone = false; saveCredentials()"
+               @keydown.esc="onEditPhone = false; credentials.phone_number = cache"
+               type="text"
+               v-model="credentials.phone_number"
+        >
+        <br>
+      </div>
+      <div>
+        <span class="personal">Номер полиса: </span>
+        <div class="personal pointer personal-action" v-if="!onEditOms" @click="lastEdited = 'phone' ;onEditOms = true; cache = credentials.oms" >{{credentials.oms}}</div>
+        <input v-else
+               v-focus
+               class="personal personal-action-selected"
+               @blur="onEditOms = false; saveCredentials()"
+               @keydown.enter="onEditOms = false; saveCredentials()"
+               @keydown.esc="onEditOms = false; credentials.oms = cache"
+               type="text"
+               v-model="credentials.oms"
+               maxlength="16"
+               minlength="14"
+               required
+        >
+        <br>
+      </div>
     </div>
-    <span class="action" @click="logout()">Выйти</span>
+    <div class="actions">
+      <div v-if="credentials.role == 'client'">
+        <router-link class="action" to="/appointment">Запись к врачу</router-link><br>
+      </div>
+      <div v-if="credentials.role == 'admin'">
+        <router-link class="action" to="/listUsers">Список пользователей</router-link><br>
+      </div>
+      <span class="action" @click="logout()">Выйти</span>
+    </div>
+    <div class="info">
+      <h2 class="primary-text">Уведомления</h2>
+      <div class="alerts">
+
+      </div>
+    </div>
   </div>
 </template>
 
@@ -62,6 +120,13 @@ export default {
   components: {
     ModalWindow
   },
+  directives: {
+    focus: {
+      mounted(el) {
+        el.focus()
+      }
+    }
+  },
   data: function () {
     return {
       credentials: {
@@ -70,6 +135,8 @@ export default {
       onEditName: false,
       onEditSurname: false,
       onEditSecName: false,
+      onEditPhone: false,
+      onEditOms: false,
       cache: null,
       lastEdited: null
     }
@@ -88,6 +155,10 @@ export default {
           this.lastEdited === 'surname' && this.credentials.surname === this.cache
           ||
           this.lastEdited === 'secName' && this.credentials.second_name === this.cache
+          ||
+          this.lastEdited === 'phone' && this.credentials.phone_number === this.cache
+          ||
+          this.lastEdited === 'oms' && this.credentials.oms === this.cache
       ){
         return
       }
@@ -102,9 +173,7 @@ export default {
   mounted() {
     if(this.loggedIn) {
       this.$store.dispatch('getCredentials')
-          .then(resolve => {
-            this.credentials = resolve
-          });
+      this.credentials = this.$store.getters.getCredentials
     }
   }
 }
@@ -140,6 +209,7 @@ export default {
   font-size: 48px;
   font-weight: 500;
   margin: 1px;
+
 }
 
 .landing .text li {
@@ -176,14 +246,22 @@ export default {
   top: 255px;
 }
 
-.profile h2{
-  margin: 0;
+.screen{
+  height: 80vh;
+  width: 1440px;
+  position: relative;
+  margin-top: 30px;
 }
 
-.profile {
+.profile{
+  position: absolute;
   margin-top: 30px;
   margin-left: 30px;
-  height: 80vh;
+  width: 720px
+}
+
+.profile h2{
+  margin: 0;
 }
 
 .profile .role {
@@ -196,9 +274,54 @@ export default {
   color: var(--second-color);
   font-size: 2.5em;
   margin-top: 10px;
+  transition: 1s;
+  border-bottom: 1px dotted transparent;
 }
 
-.profile .action {
+.profile .tool-tip:hover::after{
+  content: attr(tool-tip);
+  position: absolute;
+  left: 300px; top: 30%;
+  z-index: 1;
+  font-size: 15px;
+  padding: 5px 10px;
+  border: 1px solid var(--another-color);
+}
+
+.profile .personal-action:hover {
+  transition: 1s;
+  border-bottom: dotted 1px var(--second-color);
+}
+
+.profile .personal-action-selected {
+  font-family: Roboto;
+  padding: 0;
+  border: none;
+  transition: 1s;
+  border-bottom: solid 1px var(--second-color);
+  width: 350px
+}
+
+.profile .personal-action-selected:focus {
+  font-size: 2.5em;
+  padding: 0;
+  outline: none;
+  border: none;
+  transition: 1s;
+  border-bottom: solid 1px var(--second-color);
+  width: 350px
+}
+
+.actions{
+  display: inline-block;
+  position: absolute;
+  margin-top: 30px;
+  margin-left: 30px;
+  width: 720px;
+  bottom: 30px;
+}
+
+.actions .action {
   display: inline-block;
   border: none;
   background: var(--another-color);
@@ -212,6 +335,30 @@ export default {
   padding: 10px;
   margin-top: 10px;
   cursor: pointer;
-
 }
+
+.info{
+  margin-top: 30px;
+  width: 640px;
+  position: absolute;
+  top:0px;
+  right: 0px;
+}
+
+.info h2{
+  font-size: 48px;
+  margin: 0;
+}
+
+.info .alerts{
+  margin-top: 10px;
+  box-shadow: 0px 4px 10px 4px rgba(34, 60, 80, 0.2);
+  width: 600px;
+  height: 360px;
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  scrollbar-arrow-color: #57CCB5;
+  scrollbar-base-color: #3A8793;
+}
+
 </style>

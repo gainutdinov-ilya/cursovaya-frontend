@@ -24,6 +24,9 @@ const routes = [
     name: 'Login',
     component: function () {
       return import(/* webpackChunkName: "about" */ '../views/Login.vue')
+    },
+    meta: {
+      isGuest: true
     }
   },
   {
@@ -31,16 +34,31 @@ const routes = [
     name: 'Register',
     component: function () {
       return import(/* webpackChunkName: "about" */ '../views/Register.vue')
+    },
+    meta: {
+      isGuest: true
     }
   },
   {
     path: '/appointment',
     name: 'Appointment',
     meta:{
-      requiresAuth: true
+      isLoggined: true
     },
     component: function () {
       return import(/* webpackChunkName: "about" */ '../views/Appointment.vue')
+    }
+  },
+  {
+    path: '/listUsers',
+    name: 'listUsers',
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/AdminUsers.vue')
+    },
+    meta: {
+      isAdmin: true,
+      isLoggined: true
+
     }
   }
 ]
@@ -52,18 +70,36 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some(record => record.meta.isLoggined)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.)
     if (!store.getters.loggedIn) {
       next({
         name: 'Login'
       })
+    }
+  }
+  if (to.matched.some(record => record.meta.isAdmin)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.)
+    if (!store.getters.isAdmin) {
+      next({
+        name: 'Home'
+      })
+    }
+  }
+  if (to.matched.some(record => record.meta.isGuest)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.)
+    if (store.getters.loggedIn) {
+      next({
+        name: 'Home'
+      })
     } else {
       next()
     }
-  } else {
-    next() // make sure to always call next()!
+  }else{
+    next()
   }
 })
 
