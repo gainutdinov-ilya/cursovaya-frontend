@@ -4,6 +4,7 @@
     <div>{{user.name}}</div>
     <div>{{user.second_name}}</div>
     <div>Роль: {{user.role}}</div>
+    <button class="default-button pointer right" @click="goToEdit()">Редактировать</button>
   </div>
 </template>
 
@@ -12,6 +13,11 @@ export default {
   name: "UserInfoInLine",
   props:{
     user: Object
+  },
+  methods:{
+    goToEdit(){
+      this.$router.push({path: "/user/"+ this.user.id} )
+    }
   }
 }
 </script>
@@ -21,9 +27,10 @@ export default {
   box-shadow: 0px 4px 10px 4px rgba(34, 60, 80, 0.2);
   display: inline-block;
   position: relative;
-  width: 1350px;
-  height: 40px;
   margin-top: 30px;
+  width: 1370px;
+  padding: 5px;
+  color: #57CCB5;
 }
 
 .user div{
@@ -31,6 +38,14 @@ export default {
   position: relative;
   font-size: 32px;
   margin-right: 10px;
+}
+
+.user button{
+  font-size: 18px;
+}
+
+.right{
+  float:right;
 }
 
 </style>

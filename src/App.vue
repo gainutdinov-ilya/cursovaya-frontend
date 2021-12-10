@@ -61,5 +61,22 @@ a:hover{
   color: var(--second-color);
 }
 
+.default-button{
+  border: none;
+  background: var(--another-color);
+  color: var(--second-color);
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  padding: 10px;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.default-button-size{
+  font-size: 32px
+}
 
 </style>

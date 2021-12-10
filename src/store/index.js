@@ -34,6 +34,9 @@ export default createStore({
     },
     getCredentials(state){
       return state.credentials
+    },
+    getServer(){
+      return instance;
     }
   },
   mutations: {
@@ -68,6 +71,7 @@ export default createStore({
     }
   },
   actions: {
+    //login actions
     authorize(context, credentials){
       return new Promise((resolve, reject) => {
         instance.post('/api/login',{
@@ -76,7 +80,7 @@ export default createStore({
         })
             .then(response => {
               localStorage.setItem('accessToken', response.data.access_token)
-
+              instance.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
               context.commit('setToken', response.data.access_token)
 
               resolve(response)
@@ -98,22 +102,6 @@ export default createStore({
 
       context.commit('removeToken')
     },
-    getCredentials(context){
-      return new Promise( (resolve , reject) => {
-        instance.get('/api/user',{headers:{
-            'Authorization': `Bearer ${this.state.token}`
-          }})
-            .then(response =>{
-              context.commit('setCredentials', response.data)
-              localStorage.setItem('role', response.data.role)
-              context.commit('setRole', response.data.role)
-              resolve(response.data)
-            })
-            .catch(error =>{
-              reject(error)
-            })
-      })
-    },
     register(context, data){
       return new Promise((resolve, reject)=> {
         instance.post('/api/register', {
@@ -133,6 +121,54 @@ export default createStore({
           })
       })
     },
+    //get actions
+    getCredentials(context){
+      return new Promise( (resolve , reject) => {
+        instance.get('/api/user',{headers:{
+            'Authorization': `Bearer ${this.state.token}`
+          }})
+            .then(response =>{
+              context.commit('setCredentials', response.data)
+              localStorage.setItem('role', response.data.role)
+              context.commit('setRole', response.data.role)
+              resolve(response.data)
+            })
+            .catch(error =>{
+              reject(error)
+            })
+      })
+    },
+    getUsersCount(){
+      return new Promise((resolve)=>{
+        instance.get('/api/usersCount',{headers:{
+            'Authorization': `Bearer ${this.state.token}`
+          }})
+            .then( response =>{
+            resolve(response.data)
+            });
+      })
+    },
+    getUsers(context, data){
+      return new Promise((resolve)=>{
+        instance.get('/api/users?limit='+data.limit+'&offset='+data.offset,{headers:{
+            'Authorization': `Bearer ${this.state.token}`
+          }})
+            .then( response =>{
+              resolve(response.data)
+            });
+      })
+    },
+    getUserByID(context, id){
+      return new Promise((resolve)=>{
+        instance.get('/api/userByID?id='+id,{headers:{
+            'Authorization': `Bearer ${this.state.token}`
+          }})
+            .then( response =>{
+              resolve(response.data)
+            });
+      })
+    },
+    //put  actions
     updateCreditanials(context, data){
       return new Promise((resolve, reject)=>{
         instance.put('/api/user', {
@@ -151,34 +187,28 @@ export default createStore({
       })
 
     },
-    getUsersCount(){
-      return new Promise((resolve)=>{
-        instance.get('/api/usersCount',{headers:{
-            'Authorization': `Bearer ${this.state.token}`
-          }})
-            .then( response =>{
-            resolve(response.data)
-            });
+    updateUserByID(context, data){
+      return new Promise((resolve, reject)=>{
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+        instance.put('/api/userByID', {
+          'id': data.id,
+          'name': data.name,
+          'surname': data.surname,
+          'second_name': data.second_name,
+          'phone_number': data.phone_number,
+          'oms': data.oms,
+          'role': data.role,
+        },)
+            .then(response => {
+              resolve(response)
+            })
+            .catch(error => {
+              reject(error)
+            })
       })
-    },
-    getUsers(context, count, offset){
-      return new Promise((resolve)=>{
-        instance.get('/api/users',
-            {data:
-                  {
-                    'offset': offset,
-                    'limit': count,
-                  },
-        headers: {
-          'Authorization': `Bearer ${this.state.token}`
-        }})
-            .then( response =>{
-              resolve(response.data)
-            });
-      })
-    }
-  },
 
+    },
+  },
   modules: {
   }
 })

@@ -60,6 +60,18 @@ const routes = [
       isLoggined: true
 
     }
+  },
+  {
+    path: '/user/:userID?',
+    name: 'UserProfile',
+    component: function (){
+      return import('../views/UserPage.vue')
+    },
+    meta: {
+      isAdmin: true,
+      isLoggined: true
+    },
+    props: true
   }
 ]
 
