@@ -57,7 +57,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .register-form{
   position: absolute;
   width: 800px;

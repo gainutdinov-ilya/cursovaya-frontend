@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <div class="branding"><h2>ToothMaster96</h2></div>
+    <div class="branding"><RouterLink class="no-link" to="/"><h2>SuckMaster69</h2></RouterLink></div>
     <div class="navigation">
       <li><router-link to="/">Главная</router-link></li>
       <li><router-link to="/about">Регистратура</router-link></li>
@@ -62,6 +62,10 @@ nav .navigation li {
 }
 
 nav .navigation li a {
+  color: var(--main-color) !important;
+}
+
+.no-link{
   color: var(--main-color) !important;
 }
 </style>

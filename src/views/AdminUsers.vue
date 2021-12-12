@@ -9,6 +9,7 @@
     <button class="disabled default-button page-button left" v-else>Назад</button>
     <button class="default-button page-button right pointer" v-if="count > (limit + offset)" @click="next(); getUsers()">Далее</button>
     <button class="default-button page-button right" v-else>Далее</button>
+    <router-link class="default-button page-button middle pointer"  to="/user/register">Зарегестрировать нового пользователя</router-link>
   </div>
 </template>
 
@@ -63,7 +64,6 @@ export default {
   margin-top: 30px;
   margin-left: 30px;
   height: 80vh;
-
 }
 .page-button{
   font-size: 32px;
@@ -79,5 +79,10 @@ export default {
   left: 150px;
 }
 
+.middle{
+  position: absolute;
+  bottom: 30px;
+  left: 300px;
+}
 
 </style>

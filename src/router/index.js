@@ -46,7 +46,7 @@ const routes = [
       isLoggined: true
     },
     component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/Appointment.vue')
+      return import(/* webpackChunkName: "about" */ '../views/ClientAppointment.vue')
     }
   },
   {
@@ -65,13 +65,29 @@ const routes = [
     path: '/user/:userID?',
     name: 'UserProfile',
     component: function (){
-      return import('../views/UserPage.vue')
+      return import('../views/PersonalAdminUserPage.vue')
     },
     meta: {
       isAdmin: true,
       isLoggined: true
     },
     props: true
+  }
+  ,{
+    path: '/user/register',
+    name: 'UserRegister',
+    component: function (){
+      return import('../views/AdminCreateAccount.vue')
+    },
+    meta: {
+      isAdmin: true
+    }
+  },{
+    path: '/timeToRecord',
+    name: 'TimeToRecord',
+    component: function (){
+      return import('../views/AdminTimeToRecord.vue')
+    }
   }
 ]
 

@@ -111,7 +111,7 @@ export default createStore({
           'phone_number': data.phone_number,
           'oms': data.oms,
           'password': data.password,
-          'email': data.email
+          'email': data.email,
         })
           .then(response=>{
             resolve(response)
@@ -198,6 +198,7 @@ export default createStore({
           'phone_number': data.phone_number,
           'oms': data.oms,
           'role': data.role,
+          'speciality': data.speciality
         },)
             .then(response => {
               resolve(response)
@@ -207,6 +208,28 @@ export default createStore({
             })
       })
 
+    },
+    //create
+    createUser(context, data){
+      return new Promise((resolve, reject)=> {
+        instance.post('/api/user', {
+          'name': data.name,
+          'surname': data.surname,
+          'second_name': data.second_name,
+          'phone_number': data.phone_number,
+          'oms': data.oms,
+          'password': data.password,
+          'email': data.email,
+          'role': data.role,
+          'speciality': data.speciality
+        })
+            .then(response=>{
+              resolve(response)
+            })
+            .catch(error => {
+              reject(error)
+            })
+      })
     },
   },
   modules: {

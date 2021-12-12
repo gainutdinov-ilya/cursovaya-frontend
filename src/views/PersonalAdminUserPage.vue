@@ -60,7 +60,7 @@
     </div>
     <div>
       <span class="personal">Номер полиса: </span>
-      <div class="personal pointer personal-action" v-if="!onEditOms" @click="lastEdited = 'phone' ;onEditOms = true; cache = credentials.oms" >{{credentials.oms}}</div>
+      <div class="personal pointer personal-action" v-if="!onEditOms" @click="lastEdited = 'oms' ;onEditOms = true; cache = credentials.oms" >{{credentials.oms}}</div>
       <input v-else
              v-focus
              class="personal personal-action-selected"
@@ -88,6 +88,21 @@
         <option v-else value="doctor">Врач</option>
       </select>
     </div>
+    <div v-if="credentials.role === 'doctor'">
+      <span class="personal">Специализация: </span>
+      <div class="personal pointer personal-action" v-if="!onEditSpec" @click="lastEdited = 'spec' ;onEditSpec = true; cache = credentials.speciality " >{{credentials.speciality }}</div>
+      <input v-else
+             v-focus
+             class="personal personal-action-selected"
+             @blur="onEditSpec = false;"
+             @keydown.enter="onEditSpec = false;"
+             @keydown.esc="onEditSpec = false; credentials.speciality = cache"
+             type="text"
+             v-model="credentials.speciality"
+             required
+      >
+      <br>
+    </div>
     <button class="default-button default-button-size pointer" @click="saveUser()">Сохранить</button>
     <button class="default-button default-button-size pointer" @click="this.$router.go(-1)">Назад</button>
   </div>
@@ -106,6 +121,7 @@ export default {
       onEditSecName: false,
       onEditPhone: false,
       onEditOms: false,
+      onEditSpec: false,
       cache: null,
       lastEdited: null
     }
@@ -145,6 +161,8 @@ export default {
   margin-top: 10px;
   transition: 1s;
   border-bottom: 1px dotted transparent;
+  min-width: 100px;
+  min-height: 32px;
 }
 
 .personal-action:hover {

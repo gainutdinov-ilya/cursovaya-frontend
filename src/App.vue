@@ -79,4 +79,11 @@ a:hover{
   font-size: 32px
 }
 
+.display{
+  position: relative;
+  margin-top: 30px;
+  margin-left: 30px;
+  height: 80vh;
+}
+
 </style>

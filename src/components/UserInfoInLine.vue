@@ -3,7 +3,12 @@
     <div>{{user.surname}}</div>
     <div>{{user.name}}</div>
     <div>{{user.second_name}}</div>
-    <div>Роль: {{user.role}}</div>
+    <div>Роль:
+      <div v-if="user.role === 'admin'">Администратор</div>
+      <div v-else-if="user.role === 'client'">Клиент</div>
+      <div v-else-if="user.role === 'personal'">Персонал</div>
+      <div v-else-if="user.role === 'doctor'">Врач</div>
+    </div>
     <button class="default-button pointer right" @click="goToEdit()">Редактировать</button>
   </div>
 </template>

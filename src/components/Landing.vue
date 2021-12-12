@@ -100,6 +100,7 @@
       </div>
       <div v-if="credentials.role == 'admin'">
         <router-link class="action" to="/listUsers">Список пользователей</router-link><br>
+        <router-link class="action" to="/timeToRecord">Время работы</router-link><br>
       </div>
       <span class="action" @click="logout()">Выйти</span>
     </div>
