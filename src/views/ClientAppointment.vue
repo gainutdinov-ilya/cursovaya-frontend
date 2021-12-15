@@ -19,15 +19,17 @@
     <div v-else class="secondary-text size-2">На данный момент нет свободных талонов</div>
     </div>
   </div>
+  <preloader ref="preloader"></preloader>
 </template>
 
 <script>
 import appointmentWindow from "@/components/ModalWindowAppointment";
-
+import preloader from "@/components/Preloader";
 export default {
   name: 'appointment',
   components:{
-    appointmentWindow
+    appointmentWindow,
+    preloader
   },
   data: function () {
     return {
@@ -41,10 +43,12 @@ export default {
     }
   },
   mounted() {
+    this.$refs.preloader.show()
     this.$store.dispatch('getCalendar')
         .then(resolve =>{
           this.doctors = resolve.doctors
           this.times = resolve.times
+          this.$refs.preloader.close()
         })
 
   }

@@ -95,14 +95,7 @@
       </div>
     </div>
     <div class="actions">
-      <div v-if="credentials.role == 'client'">
-        <router-link class="action" to="/appointment">Запись к врачу</router-link><br>
-      </div>
-      <div v-if="credentials.role == 'admin'">
-        <router-link class="action" to="/listUsers">Список пользователей</router-link><br>
-        <router-link class="action" to="/timeToRecord">Управление Талонами</router-link><br>
-      </div>
-      <span class="action" @click="logout()">Выйти</span>
+
     </div>
     <div class="info">
       <h2 class="primary-text">Уведомления</h2>
@@ -114,7 +107,9 @@
         </div>
       </div>
     </div>
+    <img class="image" v-bind:src="require('/public/home.svg')" v-bind:width="1400" v-bind:height='520'>
   </div>
+
 </template>
 
 <script>
@@ -148,14 +143,10 @@ export default {
     }
   },
   methods: {
-    open: function () {
+    open() {
       this.$refs.modal.show = true
     },
-    logout: function (){
-      this.$store.dispatch('logout')
-      this.$router.push({name: 'Login'})
-    },
-    saveCredentials: function (){
+    saveCredentials(){
       if(this.lastEdited === 'name' && this.credentials.name === this.cache
           ||
           this.lastEdited === 'surname' && this.credentials.surname === this.cache
@@ -326,7 +317,11 @@ export default {
   width: 720px;
   bottom: 30px;
 }
-
+.image{
+  z-index: 1;
+  position: absolute;
+  bottom: 0;
+}
 .actions .action {
   display: inline-block;
   border: none;
@@ -355,6 +350,7 @@ export default {
 }
 
 .info .alerts{
+  position: absolute;
   z-index: 9999;
   margin-top: 10px;
   box-shadow: 0px 4px 10px 4px rgba(34, 60, 80, 0.2);
@@ -364,6 +360,7 @@ export default {
   overflow-y: scroll;
   scrollbar-arrow-color: #57CCB5;
   scrollbar-base-color: #3A8793;
+  background: white;
 }
 
 .alerts .alert{

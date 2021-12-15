@@ -23,7 +23,7 @@ export default {
             this.$store.dispatch('logout')
             clearInterval(interval)
           })
-    }, 60000)
+    }, 30000)
 
   }
 }
@@ -132,5 +132,24 @@ hr {
   padding-top: 15px;
 }
 
+.styled-input{
+  font-family: Roboto;
+  padding: 0;
+  border: none;
+  transition: 1s;
+  border-bottom: solid 1px var(--second-color);
+  width: 350px;
+  color: #3A8793;
+}
+
+
+.styled-input:focus{
+  padding: 0;
+  outline: none;
+  border: none;
+  transition: 1s;
+  border-bottom: solid 1px var(--second-color);
+  width: 350px
+}
 
 </style>

@@ -4,7 +4,7 @@ import axios from 'axios';
 if(localStorage.getItem('accessToken') != null)
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
 
-const instance = axios.create({baseURL:'http://127.0.0.1'});
+const instance = axios.create({baseURL:'http://pc.lan'});
 
 export default createStore({
   state: {
@@ -37,6 +37,9 @@ export default createStore({
     },
     isDoctor(state){
       return state.credentials.role === 'doctor'
+    },
+    isClient(state){
+      return state.credentials.role === 'client'
     },
     getCredentials(state){
       return state.credentials
@@ -143,7 +146,8 @@ export default createStore({
               reject(error)
             })
       })
-    },
+    }
+    ,
     getCredentials(context){
       return new Promise( (resolve , reject) => {
         instance.get('/api/user',{headers:{
@@ -212,6 +216,22 @@ export default createStore({
         })
             .then(response => {
               resolve(response.data)
+            })
+      })
+    },
+    getNote(context, data){
+      return new Promise((resolve, reject)=> {
+        instance.get('/api/calendar/note', {
+          headers: {
+            'Authorization': `Bearer ${this.state.token}`
+          },
+          params: data
+        })
+            .then(response => {
+              resolve(response.data)
+            })
+            .catch(response => {
+              reject(response.data)
             })
       })
     },
@@ -308,6 +328,21 @@ export default createStore({
 
     },
     //delete
+    cancelNote(context, id){
+      return new Promise((resolve, reject)=> {
+        instance.delete('/api/calendar/note', {
+          params:{
+            id: id
+          }
+        })
+            .then(response=>{
+              resolve(response)
+            })
+            .catch(error => {
+              reject(error)
+            })
+      })
+    },
     deleteCalendar(context, data) {
       return new Promise((resolve, reject) => {
         instance.delete('/api/calendar', {params:{

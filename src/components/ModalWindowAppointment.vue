@@ -40,9 +40,7 @@ m805 -763 c411 -43 728 -102 1072 -202 1363 -393 2541 -1301 3276 -2524 529
 -62 259 -106 220 -352 355 -593 323z"/>
               </g>
             </svg>
-            {{ date.dateTime.getUTCHours() }}:
-            <template v-if="date.dateTime.getUTCMinutes() <= 9">0{{ date.dateTime.getUTCMinutes() }}</template>
-            <template v-else>{{ date.dateTime.getUTCMinutes() }}</template>
+            {{ date.dateTime.getUTCHours() }}:<template v-if="date.dateTime.getUTCMinutes() <= 9">0{{ date.dateTime.getUTCMinutes() }}</template><template v-else>{{ date.dateTime.getUTCMinutes() }}</template>
             <input v-bind:name="date.id" type="radio" v-model="time" v-bind:value="date.id">
           </div>
         </tr>
@@ -57,7 +55,7 @@ m805 -763 c411 -43 728 -102 1072 -202 1363 -393 2541 -1301 3276 -2524 529
       </div>
       <h2 class="primary-text size-2">Дата</h2>
       <h2 style="margin-left: 10px">{{ date }}</h2>
-      <button style="margin-top: 10px" class="default-button size-1 pointer" @click="create()">Записаться</button>
+      <button v-if="this.$store.getters.isAdmin === false && this.$store.getters.isPersonal === false" style="margin-top: 10px" class="default-button size-1 pointer" @click="create()">Записаться</button>
     </div>
   </div>
 </template>
@@ -106,6 +104,7 @@ export default {
       })
           .then(() => {
             alert("Вы успешно записаны, получить талон можно на главной странице")
+            this.$router.go(-1)
             return
           })
           .catch(() => {

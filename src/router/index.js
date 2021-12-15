@@ -67,8 +67,18 @@ const routes = [
       isPersonal: true,
     },
     props: true
-  }
-  ,{
+  },
+  {
+    path: '/ticket/approve',
+    name: 'DoctorPage',
+    component: function (){
+      return import('../views/DoctorPage.vue')
+    },
+    meta: {
+      isDoctor: true,
+    }
+  },
+  {
     path: '/user/register',
     name: 'UserRegister',
     component: function (){

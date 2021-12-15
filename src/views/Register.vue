@@ -1,12 +1,12 @@
 <template>
   <form id="register" class="register-form" @submit.prevent="register()">
     <h2 class="text">Регистрация</h2>
-    <input v-model="fio" type="text" name="personal_data" placeholder="Фамилия Имя Отчество" required><br>
-    <input v-model="phone" type="tel" name="phone" placeholder="Номер телефона" minlength="10" maxlength="11" required><br>
-    <input v-model="oms" type="text" name="oms" placeholder="Номер полиса ОМС" minlength="15" maxlength="16" required><br>
-    <input v-model="email" type="email" name="email" placeholder="Электронная почта" required><br>
-    <input v-model="password" type="password" name="password" placeholder="Пароль" required><br>
-    <input v-model="password_repeated" type="password" name="password_r" placeholder="Повторите пароль" required><br>
+    <input v-model="fio" v-bind:id="rand" type="text" name="personal_data" placeholder="Фамилия Имя Отчество" required><br>
+    <input v-model="phone" v-bind:id="rand" type="tel" name="phone" placeholder="Номер телефона" minlength="10" maxlength="11" required><br>
+    <input v-model="oms" v-bind:id="rand" type="text" name="oms" placeholder="Номер полиса ОМС" minlength="15" maxlength="16" required><br>
+    <input v-model="email" v-bind:id="rand" type="email" name="email" placeholder="Электронная почта" required><br>
+    <input v-model="password" v-bind:id="rand" type="password" name="password" placeholder="Пароль" required><br>
+    <input v-model="password_repeated" v-bind:id="rand" type="password" name="password_r" placeholder="Повторите пароль" required><br>
     <input type="submit" value="Зарегестрироваться"><br>
     <router-link to="login">Уже есть аккаунта?</router-link>
   </form>

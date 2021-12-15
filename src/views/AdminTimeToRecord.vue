@@ -4,14 +4,16 @@
     <div v-if="times !== null">
       <h2 class="primary-text size-3">Текущий календарь</h2>
       <div class="calendar">
-        <table class="appointment">
+        <table v-if="times !== null" class="appointment">
           <tr>
             <td></td>
-            <td v-for="time in times" :key="time.value">{{ time }}</td>
+            <td v-for="time in times" :key="time.value">{{time}}</td>
           </tr>
           <tr v-for="doc in doctors" :key="doc.id">
-            <td>{{ doc.name }} {{ doc.surname }} - {{ doc.speciality }}</td>
-            <td v-for="ticket in doc.ticketsForDay" :key="ticket.day" class="pointer">{{ ticket.count }}</td>
+            <td>{{doc.name}} {{doc.surname}} - {{doc.speciality}}</td>
+            <td v-for="ticket in doc.ticketsForDay" :key="ticket.id">
+              <appointment-window v-bind:date="ticket.date" v-bind:doc="doc" v-bind:count="ticket.count" v-bind:data="ticket.tickets" class="pointer"></appointment-window>
+            </td>
           </tr>
         </table>
       </div>
@@ -77,10 +79,12 @@
 
 <script>
 import preloader from "@/components/Preloader";
+import appointmentWindow from "@/components/ModalWindowAppointment";
 
 export default {
   name: "AdminTimeToRecord",
   components: {
+    appointmentWindow,
     preloader
   },
   data: function () {
@@ -182,6 +186,7 @@ export default {
         alert("Выберите хотя-бы одного врача или у вас нет врачей?")
         return
       }
+
       if (this.skipTime === true) {
         this.timeForSkip.forEach(item => {
           if (item.value == "00:00") {
@@ -219,15 +224,18 @@ export default {
     }
   },
   mounted() {
+    this.$refs.preloader.show()
     this.$store.dispatch('getCalendar')
         .then(resolve => {
           this.doctors = resolve.doctors
           this.times = resolve.times
+          this.$refs.preloader.close()
         })
     this.$store.dispatch('getAllDoctors')
         .then(resolve => {
           this.allDoctors = resolve
         })
+
   }
 }
 </script>
