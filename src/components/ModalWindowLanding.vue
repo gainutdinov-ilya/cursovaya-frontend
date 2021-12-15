@@ -1,5 +1,4 @@
 <template>
-
   <div v-if="show" class="login" id="loginBlock">
     <div class="box">
       <div v-on:click="changeState()" class="close">

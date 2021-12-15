@@ -1,5 +1,6 @@
 <template>
   <div class="display">
+    <h2 class="primary-text size-3 first-text">Редактирование пользователя</h2>
     <div>
       <span class="personal">Фамилия:</span>
       <div class="pointer personal personal-action tool-tip" v-if="!this.onEditSurname" @click="lastEdited = 'surname'; this.onEditSurname = true; cache = credentials.surname">{{credentials.surname}}</div>
@@ -17,7 +18,7 @@
       <br>
     </div>
     <div>
-      <span class="personal">Имя: </span>
+      <span class="personal">Имя:</span>
       <div class="pointer personal personal-action" v-if="!onEditName" @click="lastEdited = 'name'; onEditName = true; cache = credentials.name">{{credentials.name}}</div>
       <input v-else
              class="personal personal-action-selected"
@@ -31,7 +32,7 @@
       <br>
     </div>
     <div>
-      <span class="personal">Отчество: </span>
+      <span class="personal">Отчество:</span>
       <div class="pointer personal personal-action" v-if="!onEditSecName" @click="lastEdited = 'secName' ;onEditSecName = true; cache = credentials.second_name" >{{credentials.second_name}}</div>
       <input v-else
              class="personal personal-action-selected"
@@ -104,6 +105,7 @@
       <br>
     </div>
     <button class="default-button default-button-size pointer" @click="saveUser()">Сохранить</button>
+    <button class="default-button default-button-size pointer" @click="deleteUser()">Удалить</button>
     <button class="default-button default-button-size pointer" @click="this.$router.go(-1)">Назад</button>
   </div>
 </template>
@@ -136,12 +138,25 @@ export default {
   methods:{
     saveUser(){
       this.$store.dispatch('updateUserByID', this.credentials)
-      .then(function (){
+      .then(()=>{
         alert("Сохранено")
       })
-      .catch(function (){
+      .catch(() =>{
         alert("Ошибка, попробуйте ещё раз")
       })
+    },
+    deleteUser(){
+      let confirm = prompt("Вы действительно хотите удалить пользователя ? ");
+      if(confirm.toLowerCase() === 'да') {
+        this.$store.dispatch('deleteUser', this.credentials.id)
+            .then(() => {
+              alert("Удалён")
+              this.$router.go(-1)
+            })
+            .catch(() => {
+              alert("Ошибка, попробуйте ещё раз")
+            })
+      }
     }
   },
   mounted() {
@@ -189,9 +204,6 @@ export default {
   width: 350px
 }
 
-.display{
-  padding: 30px;
-}
 
 select{
   outline: none;

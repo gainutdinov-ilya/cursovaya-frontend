@@ -1,5 +1,6 @@
 <template>
   <div class="display">
+    <h2 class="primary-text size-3 first-text">Список пользователей</h2>
     <div v-for="user in users" :key="user.id">
       <div>
         <user-info-in-line v-bind:user="user"></user-info-in-line>
@@ -27,7 +28,7 @@ export default {
 
       },
       offset: 0,
-      limit: 8,
+      limit: 7,
       count: 0,
     }
   },

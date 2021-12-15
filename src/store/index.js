@@ -1,10 +1,10 @@
 import { createStore } from 'vuex'
-import axios from "axios";
+import axios from 'axios';
 
 if(localStorage.getItem('accessToken') != null)
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
 
-const instance = axios.create({baseURL:'http://127.0.0.1:80'});
+const instance = axios.create({baseURL:'http://127.0.0.1'});
 
 export default createStore({
   state: {
@@ -32,11 +32,20 @@ export default createStore({
     isAdmin(state){
       return state.credentials.role === 'admin'
     },
+    isPersonal(state){
+      return state.credentials.role === 'personal' || state.credentials.role === 'admin'
+    },
+    isDoctor(state){
+      return state.credentials.role === 'doctor'
+    },
     getCredentials(state){
       return state.credentials
     },
     getServer(){
       return instance;
+    },
+    isLoading(state){
+      return state.loading
     }
   },
   mutations: {
@@ -122,6 +131,19 @@ export default createStore({
       })
     },
     //get actions
+    getAlerts(){
+      return new Promise( (resolve , reject) => {
+        instance.get('/api/alerts',{headers:{
+            'Authorization': `Bearer ${this.state.token}`
+          }})
+            .then(response =>{
+              resolve(response.data)
+            })
+            .catch(error =>{
+              reject(error)
+            })
+      })
+    },
     getCredentials(context){
       return new Promise( (resolve , reject) => {
         instance.get('/api/user',{headers:{
@@ -140,7 +162,7 @@ export default createStore({
     },
     getUsersCount(){
       return new Promise((resolve)=>{
-        instance.get('/api/usersCount',{headers:{
+        instance.get('/api/users/count',{headers:{
             'Authorization': `Bearer ${this.state.token}`
           }})
             .then( response =>{
@@ -158,14 +180,39 @@ export default createStore({
             });
       })
     },
+    getCalendar(){
+      return new Promise((resolve)=>{
+        instance.get('/api/calendar',{headers:{
+            'Authorization': `Bearer ${this.state.token}`
+          }})
+            .then( response =>{
+              resolve(response.data)
+            })
+            .catch(function (){
+              resolve(this.getCalendar())
+        })
+      })
+    },
     getUserByID(context, id){
       return new Promise((resolve)=>{
-        instance.get('/api/userByID?id='+id,{headers:{
+        instance.get('/api/user/id?id='+id,{headers:{
             'Authorization': `Bearer ${this.state.token}`
           }})
             .then( response =>{
               resolve(response.data)
             });
+      })
+    },
+    getAllDoctors(){
+      return new Promise((resolve)=> {
+        instance.get('/api/doctors', {
+          headers: {
+            'Authorization': `Bearer ${this.state.token}`
+          }
+        })
+            .then(response => {
+              resolve(response.data)
+            })
       })
     },
     //put  actions
@@ -190,7 +237,7 @@ export default createStore({
     updateUserByID(context, data){
       return new Promise((resolve, reject)=>{
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
-        instance.put('/api/userByID', {
+        instance.put('/api/user/id', {
           'id': data.id,
           'name': data.name,
           'surname': data.surname,
@@ -210,6 +257,19 @@ export default createStore({
 
     },
     //create
+    createNote(context, data){
+      return new Promise((resolve, reject)=> {
+        instance.post('/api/calendar/note', {
+          'id': data.id
+        })
+            .then(response=>{
+              resolve(response)
+            })
+            .catch(error => {
+              reject(error)
+            })
+      })
+    },
     createUser(context, data){
       return new Promise((resolve, reject)=> {
         instance.post('/api/user', {
@@ -231,6 +291,50 @@ export default createStore({
             })
       })
     },
+    createCalendar(context, data){
+      instance.post('/api/calendar', {
+        'interval': data.interval,
+        'startTime': data.startTime,
+        'endTime': data.endTime,
+        'startDate': data.startDate,
+        'endDate': data.endDate,
+        'catches': data.catches,
+        'doctors': data.doctors,
+      },{
+        headers:{
+          'Authorization': `Bearer ${this.state.token}`
+        }
+      })
+
+    },
+    //delete
+    deleteCalendar(context, data) {
+      return new Promise((resolve, reject) => {
+        instance.delete('/api/calendar', {params:{
+          'startDate': data.startDate,
+          'endDate': data.endDate
+        }})
+            .then(response => {
+              resolve(response)
+            })
+            .catch(error => {
+              reject(error)
+            })
+      })
+    },
+    deleteUser(context,data){
+      return new Promise((resolve, reject) => {
+        instance.delete('/api/user', {params:{
+            'id': data,
+          }})
+            .then(response => {
+              resolve(response)
+            })
+            .catch(error => {
+              reject(error)
+            })
+      })
+    }
   },
   modules: {
   }

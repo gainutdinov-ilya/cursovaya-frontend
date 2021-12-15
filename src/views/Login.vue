@@ -4,7 +4,6 @@
       <input type="email" name="email" placeholder="Электронная почта" required v-model="email"><br>
       <input type="password" name="password" placeholder="Пароль" required v-model="password" ><br>
       <input type="submit" value="Войти"><br>
-      <router-link to="/forgot-password">Забыли пароль?</router-link><br>
       <router-link to="/register">Нет аккаунта?</router-link>
     </form>
 </template>

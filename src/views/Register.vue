@@ -45,11 +45,11 @@ export default {
         phone_number: this.phone
       }
       this.$store.dispatch('register', creditanials)
-        .then(response =>{
-          alert(response)
+        .then(() =>{
+          alert("Вы успешно зарегестрированы")
         })
-        .catch(error => {
-          alert(error)
+        .catch(() => {
+          alert("Ошибка, может вы уже регистрировались?")
         })
 
     }

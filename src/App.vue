@@ -9,9 +9,22 @@
 import Navigation from '@/components/Navigation'
 
 export default {
-  components: { Navigation },
-  mounted(){
+  components: {
+    Navigation
+  },
+  mounted() {
+    this.$store.dispatch('getCredentials')
+    let interval = setInterval(() => {
+      if (this.$store.getters.loggedIn !== true)
+        return
       this.$store.dispatch('getCredentials')
+          .catch(() => {
+            alert("Похоже время вашего сеанса вышло, авторизуйтесь заново")
+            this.$store.dispatch('logout')
+            clearInterval(interval)
+          })
+    }, 60000)
+
   }
 }
 
@@ -22,46 +35,73 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.container{
+
+.container {
   box-shadow: 0px 4px 10px 4px rgba(34, 60, 80, 0.2);
   width: 1440px;
   margin-left: calc(50% - 1440px / 2);
 }
 
-a{
-  text-decoration: none;
-}
-a:hover{
+a {
   text-decoration: none;
 }
 
-:root{
+a:hover {
+  text-decoration: none;
+}
+
+:root {
   --main-color: #57CCB5;
   --second-color: #3A8793;
   --another-color: #81D9C7;
 }
+*::-webkit-scrollbar-button {
+  background-color: rgba(34, 60, 80, 0.1);
+  box-shadow: 0px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
 
-.pointer{
+*::-webkit-scrollbar {
+  z-index: 9999999;
+  box-shadow: 0px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(34, 60, 80, 0.1);
+  border-radius: 50px;
+}
+
+.scroll{
+  overflow: scroll;
+}
+
+h2 {
+  margin: 0px;
+}
+
+.pointer {
   cursor: pointer;
 }
 
-.size-3{
+.size-3 {
   font-size: 3em;
 }
-.size-2{
+
+.size-2 {
   font-size: 2em;
 }
 
-
-.primary-text{
+.size-1 {
+  font-size: 1em;
+}
+.primary-text {
   color: var(--main-color);
 }
 
-.secondary-text{
+.secondary-text {
   color: var(--second-color);
 }
 
-.default-button{
+.default-button {
   border: none;
   background: var(--another-color);
   color: var(--second-color);
@@ -71,19 +111,26 @@ a:hover{
   padding: 10px;
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
 }
 
-.default-button-size{
+.default-button-size {
   font-size: 32px
 }
 
-.display{
+hr {
+  background-color: #81D9C7
+}
+
+.display {
+  height: 80vh;
+  width: 1410px;
   position: relative;
   margin-top: 30px;
   margin-left: 30px;
-  height: 80vh;
+  padding-top: 15px;
 }
+
 
 </style>

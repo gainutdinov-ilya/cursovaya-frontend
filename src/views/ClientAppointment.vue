@@ -1,66 +1,68 @@
 <template>
-  <h2 class="primary-text size-3" >Запись на приём</h2>
-  <p class="secondary-text size-2">В таблице указано количество свободных талонов у врача на определённый день. Нажмите на число талонов, чтобы выбрать время для записи</p>
-  <table class="appointment">
-    <tr>
-      <td></td>
-      <td v-for="time in times" :key="time.value">{{time.value}}</td>
-    </tr>
-    <tr v-for="doc in doctors" :key="doc.name">
-      <td>{{doc.name}} - {{doc.specialization}}</td>
-      <td class="pointer" v-for="ticket in doc.tickets" :key="ticket.left">{{ticket.left}}</td>
-    </tr>
-  </table>
+  <div class="display">
+    <h2 class="primary-text size-3" >Запись на приём</h2>
+    <p class="secondary-text size-2">В таблице указано количество свободных талонов у врача на определённый день. Нажмите на число талонов, чтобы выбрать время для записи</p>
+    <div class="scroll">
+    <table v-if="times !== null" class="appointment">
+      <tr>
+        <td></td>
+        <td v-for="time in times" :key="time.value">{{time}}</td>
+      </tr>
+      <tr v-for="doc in doctors" :key="doc.id">
+        <td>{{doc.name}} {{doc.surname}} - {{doc.speciality}}</td>
+        <td v-for="ticket in doc.ticketsForDay" :key="ticket.id">
+          <appointment-window v-bind:date="ticket.date" v-bind:doc="doc" v-bind:count="ticket.count" v-bind:data="ticket.tickets" class="pointer"></appointment-window>
+        </td>
+      </tr>
+    </table>
+
+    <div v-else class="secondary-text size-2">На данный момент нет свободных талонов</div>
+    </div>
+  </div>
 </template>
 
 <script>
+import appointmentWindow from "@/components/ModalWindowAppointment";
+
 export default {
   name: 'appointment',
+  components:{
+    appointmentWindow
+  },
   data: function () {
     return {
-      times: [
-        {
-          value: '1.01.01'
-        },
-        {
-          value: '2.01.01'
-        }
-      ],
-      doctors: [
-        {
-          id: 1,
-          name: 'Иванов Иван Иванович',
-          specialization: 'Стоматолог',
-          tickets: [
-            {
-              id: 1,
-              left: 1
-            },
-            {
-              id: 2,
-              left: 2
-            }
-          ]
-        }
-      ]
+      doctors: null,
+      times: null
     }
+  },
+  methods:{
+    open(data){
+      this.$refs.window.open(data)
+    }
+  },
+  mounted() {
+    this.$store.dispatch('getCalendar')
+        .then(resolve =>{
+          this.doctors = resolve.doctors
+          this.times = resolve.times
+        })
+
   }
 }
 </script>
 
 <style>
 .appointment{
-  margin-left: 10px;
+  max-width: 1390px;
+  max-height: 500px;
   color: var(--second-color);
+
 }
 
 .appointment td,th{
   border: solid 1px var(--another-color);
   padding: 5px;
   font-size: 1.5em;
-}
 
-.container h2, .container p {
-  margin: 10px;
 }
 </style>

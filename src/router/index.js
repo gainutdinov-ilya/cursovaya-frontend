@@ -6,37 +6,35 @@ const routes = [
     path: '/',
     name: 'Home',
     component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/Home.vue')
+      return import('../views/Home.vue')
     }
   },
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+
     component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/About.vue')
+      return import('../views/About.vue')
     }
   },
   {
     path: '/login',
     name: 'Login',
     component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/Login.vue')
+      return import('../views/Login.vue')
     },
     meta: {
-      isGuest: true
+      isLoggined: false
     }
   },
   {
     path: '/register',
     name: 'Register',
     component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/Register.vue')
+      return import('../views/Register.vue')
     },
     meta: {
-      isGuest: true
+      isLoggined: false
     }
   },
   {
@@ -46,19 +44,17 @@ const routes = [
       isLoggined: true
     },
     component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/ClientAppointment.vue')
+      return import('../views/ClientAppointment.vue')
     }
   },
   {
     path: '/listUsers',
     name: 'listUsers',
     component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/AdminUsers.vue')
+      return import('../views/AdminUsers.vue')
     },
     meta: {
-      isAdmin: true,
-      isLoggined: true
-
+      isPersonal: true
     }
   },
   {
@@ -68,8 +64,7 @@ const routes = [
       return import('../views/PersonalAdminUserPage.vue')
     },
     meta: {
-      isAdmin: true,
-      isLoggined: true
+      isPersonal: true,
     },
     props: true
   }
@@ -80,7 +75,7 @@ const routes = [
       return import('../views/AdminCreateAccount.vue')
     },
     meta: {
-      isAdmin: true
+      isPersonal: true,
     }
   },{
     path: '/timeToRecord',
@@ -88,6 +83,17 @@ const routes = [
     component: function (){
       return import('../views/AdminTimeToRecord.vue')
     }
+  },
+  {
+    path: '/ticket/:id?',
+    name: 'Ticket',
+    component: function (){
+      return import('../views/Ticket.vue')
+    },
+    meta: {
+      isLoggined: true,
+    },
+    props: true
   }
 ]
 
@@ -99,8 +105,6 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.isLoggined)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.)
     if (!store.getters.loggedIn) {
       next({
         name: 'Login'
@@ -108,25 +112,27 @@ router.beforeEach((to, from, next) => {
     }
   }
   if (to.matched.some(record => record.meta.isAdmin)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.)
     if (!store.getters.isAdmin) {
       next({
         name: 'Home'
       })
     }
   }
+  if (to.matched.some(record => record.meta.isPersonal)) {
+    if (!store.getters.isPersonal) {
+      next({
+        name: 'Home'
+      })
+    }
+  }
   if (to.matched.some(record => record.meta.isGuest)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.)
     if (store.getters.loggedIn) {
       next({
         name: 'Home'
       })
-    } else {
-      next()
     }
-  }else{
+  }
+  else{
     next()
   }
 })

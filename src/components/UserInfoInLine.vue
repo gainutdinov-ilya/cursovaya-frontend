@@ -1,5 +1,6 @@
 <template>
   <div class="user">
+    <div>{{user.id}}</div>
     <div>{{user.surname}}</div>
     <div>{{user.name}}</div>
     <div>{{user.second_name}}</div>

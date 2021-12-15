@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <div class="branding"><RouterLink class="no-link" to="/"><h2>SuckMaster69</h2></RouterLink></div>
+    <div class="branding"><RouterLink class="no-link" to="/"><h2>ToothMaster96</h2></RouterLink></div>
     <div class="navigation">
       <li><router-link to="/">Главная</router-link></li>
       <li><router-link to="/about">Регистратура</router-link></li>
@@ -25,7 +25,6 @@ nav{
   height: 80px;
   left: calc(50% - 1440px/2);
   box-shadow: 0px 4px 8px 0px rgba(34, 60, 80, 0.2);
-
   background: white;
 }
 

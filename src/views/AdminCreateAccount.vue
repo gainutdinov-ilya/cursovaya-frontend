@@ -1,5 +1,6 @@
 <template>
   <form @submit.prevent="create()" class="display">
+    <h2 class="primary-text size-3 first-text">Создание пользователя</h2>
     <div>
       <span class="personal">Электронная почта: </span>
       <input
@@ -36,7 +37,7 @@
       <br>
     </div>
     <div>
-      <span class="personal">Имя: </span>
+      <span class="personal">Имя:</span>
       <input
           class="personal personal-action-selected"
           type="text"
@@ -46,7 +47,7 @@
       <br>
     </div>
     <div>
-      <span class="personal">Отчество: </span>
+      <span class="personal">Отчество:</span>
       <input
           class="personal personal-action-selected"
           type="text"
@@ -97,11 +98,12 @@
       <br>
     </div>
     <button class="default-button default-button-size pointer" type="submit">Создать</button>
-    <button class="default-button default-button-size pointer" @click="this.$router.go(-1)">Назад</button>
+    <button type="button" class="default-button default-button-size pointer" @click="this.$router.go(-1);">Назад</button>
   </form>
-</template>
 
+</template>
 <script>
+
 export default {
   name: "AdminCreateAccount",
   data: function () {
@@ -122,13 +124,14 @@ export default {
   methods: {
     create() {
       this.$store.dispatch('createUser', this.credentials)
-          .then(value =>  {
+          .then(() =>  {
             alert("Пользователь успешно создан")
-            value
+            return
           })
           .catch(error =>{
             alert(error)
           })
+      return
     }
   }
 }
@@ -166,10 +169,6 @@ export default {
   transition: 1s;
   border-bottom: solid 1px var(--second-color);
   width: 350px
-}
-
-.display {
-  padding: 30px;
 }
 
 select {
