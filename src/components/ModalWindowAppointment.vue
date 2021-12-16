@@ -55,7 +55,7 @@ m805 -763 c411 -43 728 -102 1072 -202 1363 -393 2541 -1301 3276 -2524 529
       </div>
       <h2 class="primary-text size-2">Дата</h2>
       <h2 style="margin-left: 10px">{{ date }}</h2>
-      <button v-if="this.$store.getters.isAdmin === false && this.$store.getters.isPersonal === false" style="margin-top: 10px" class="default-button size-1 pointer" @click="create()">Записаться</button>
+      <button v-if="this.$store.getters.isAdmin === false" style="margin-top: 10px" class="default-button size-1 pointer" @click="create()">Записаться</button>
     </div>
   </div>
 </template>
@@ -67,7 +67,8 @@ export default {
     data: Object,
     count: Number,
     doc: Object,
-    date: Object
+    date: Object,
+    userID: Number || null
   },
   data: function () {
     return {
@@ -99,18 +100,38 @@ export default {
         alert("Выберите время для записи")
         return;
       }
-      this.$store.dispatch('createNote', {
-        'id': this.time
-      })
-          .then(() => {
-            alert("Вы успешно записаны, получить талон можно на главной странице")
-            this.$router.go(-1)
-            return
-          })
-          .catch(() => {
-            alert("Похоже вы уже записаны, проверьте уведомления на главной странице")
-            return
-          })
+      if(!this.$store.getters.isPersonal) {
+        this.$store.dispatch('createNote', {
+          'id': this.time
+        })
+            .then(() => {
+              alert("Вы успешно записаны, получить талон можно на главной странице")
+              this.$router.go(-1)
+              return
+            })
+            .catch(() => {
+              alert("Похоже вы уже записаны, проверьте уведомления на главной странице")
+              return
+            })
+      }else{
+        this.$store.dispatch('createNote', {
+          'id': this.time,
+          'userID': this.userID
+        })
+            .then(() => {
+              alert("Клиент Записан")
+              this.$emit('updateData')
+              this.format()
+              this.close()
+            })
+            .catch(() => {
+              alert("Ошибка, повторите попытку или обновите старницу")
+              this.$emit('updateData')
+              this.format()
+              this.close()
+              return
+            })
+      }
     }
   }
 }

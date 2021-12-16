@@ -62,6 +62,7 @@
           class="personal personal-action-selected"
           type="text"
           v-model="credentials.phone_number"
+          maxlength="10"
           required
       >
       <br>
@@ -78,7 +79,7 @@
       >
       <br>
     </div>
-    <div>
+    <div v-if="this.$store.getters.isAdmin">
       <span class="personal">Роль:</span>
       <select class="personal" v-model="credentials.role">
         <option value="admin">Администратор</option>
@@ -113,7 +114,7 @@ export default {
         name: null,
         surname: null,
         second_name: null,
-        role: null,
+        role: 'client',
         oms: null,
         phone_number: null,
         password: null,
@@ -128,8 +129,8 @@ export default {
             alert("Пользователь успешно создан")
             return
           })
-          .catch(error =>{
-            alert(error)
+          .catch(() =>{
+            alert("Похоже польхователь с похожими данными уже существует")
           })
       return
     }

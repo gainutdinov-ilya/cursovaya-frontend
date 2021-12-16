@@ -111,6 +111,18 @@ h2 {
   padding: 10px;
 }
 
+.default-button-margin{
+  border: none;
+  background: var(--another-color);
+  color: var(--second-color);
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  padding: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
 .pointer {
   cursor: pointer;
 }

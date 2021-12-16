@@ -1,9 +1,14 @@
 <template>
   <div class="display">
     <h2 class="primary-text size-3 first-text">Список пользователей</h2>
-    <div v-for="user in users" :key="user.id">
-      <div>
-        <user-info-in-line v-bind:user="user"></user-info-in-line>
+    <label v-bind:for="search" class="secondary-text size-2">Поиск по фамилии:</label>
+    <input type="text" v-model="search_query" v-bind:id="search" class="styled-input size-2"
+           @keydown.enter="query()" @keydown.esc="getUsers()"><br>
+    <div class="search-result">
+      <div v-for="user in users" :key="user.id">
+        <template v-if="this.$store.getters.isAdmin || this.$store.getters.isPersonal && user.role === 'client'">
+          <user-info-in-line style="margin-left: 5px"  v-bind:user="user"></user-info-in-line>
+        </template>
       </div>
     </div>
     <button class="default-button page-button left pointer" v-if="0 <= (offset - limit)" @click="back(); getUsers()">Назад</button>
@@ -12,15 +17,18 @@
     <button class="default-button page-button right" v-else>Далее</button>
     <router-link class="default-button page-button middle pointer"  to="/user/register">Зарегестрировать нового пользователя</router-link>
   </div>
+  <preloader ref="preloader"></preloader>
 </template>
 
 
 <script>
 import UserInfoInLine from "@/components/UserInfoInLine";
+import preloader from "@/components/Preloader";
 export default {
   name: 'AdminListUsers',
   components:{
-    UserInfoInLine
+    UserInfoInLine,
+    preloader
   },
   data: function (){
     return {
@@ -30,6 +38,7 @@ export default {
       offset: 0,
       limit: 7,
       count: 0,
+      search_query: null
     }
   },
   methods:{
@@ -41,6 +50,23 @@ export default {
       .then(answer =>{
         this.users = answer
       })
+    },
+    query() {
+      if (this.search_query === null || this.search_query === null) {
+        alert("Введите фамилию клиента")
+        return
+      }
+      this.$refs.preloader.show()
+      this.$store.dispatch('searchUser', {search: this.search_query})
+          .then(data => {
+            this.users = data
+            this.search_query = null
+            this.$refs.preloader.close()
+          })
+          .catch(() => {
+            this.$refs.preloader.close()
+            alert("Пользователь не найден")
+          })
     },
     next(){
       this.offset = this.offset + this.limit
@@ -86,4 +112,10 @@ export default {
   left: 300px;
 }
 
+.search-result{
+  background: transparent;
+  overflow-y: scroll;
+  width: 1410px;
+  height: 500px;
+}
 </style>

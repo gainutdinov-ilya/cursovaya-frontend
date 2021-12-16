@@ -76,7 +76,7 @@
       >
       <br>
     </div>
-    <div>
+    <div v-if="this.$store.getters.isAdmin">
       <span class="personal">Роль:</span>
       <select class="personal" v-model="credentials.role">
         <option v-if="credentials.role === 'admin'" selected value="admin">Администратор</option>
@@ -104,9 +104,9 @@
       >
       <br>
     </div>
-    <button class="default-button default-button-size pointer" @click="saveUser()">Сохранить</button>
-    <button class="default-button default-button-size pointer" @click="deleteUser()">Удалить</button>
-    <button class="default-button default-button-size pointer" @click="this.$router.go(-1)">Назад</button>
+    <button class="default-button-margin default-button-size pointer" @click="saveUser()">Сохранить</button>
+    <button v-if="this.$store.getters.isAdmin" class="default-button-margin default-button-size pointer" @click="deleteUser()">Удалить</button>
+    <button class="default-button-margin default-button-size pointer" @click="this.$router.go(-1)">Назад</button>
   </div>
 </template>
 

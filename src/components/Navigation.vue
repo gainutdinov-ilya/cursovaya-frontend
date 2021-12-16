@@ -25,6 +25,14 @@
           <router-link to="/timeToRecord">Управление Талонами</router-link>
         </li>
       </template>
+      <template v-if="this.$store.getters.isPersonal && !this.$store.getters.isAdmin">
+        <li>
+          <router-link to="/listUsers">Список пользователей</router-link>
+        </li>
+        <li>
+          <router-link to="/client/appointment">Записать клиента</router-link>
+        </li>
+      </template>
       <template v-if="this.$store.getters.loggedIn === true">
         <li>
           <span style="color: #57CCB5" class="pointer" @click="logout()">Выйти</span>

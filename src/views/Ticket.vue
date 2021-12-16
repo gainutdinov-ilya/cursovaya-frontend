@@ -1,7 +1,7 @@
 <template>
   <div v-if="this.data !== null" class="display">
     <img v-bind:src="require('/public/ticketpage.svg')" class="image">
-    <h2 class="primary-text size-3">Врач</h2>
+    <h2 class="primary-text size-3">{{ this.data.doctor.speciality }}</h2>
     <div class="personal">
       <h2 class="secondary-text size-2">{{ this.data.doctor.surname }}</h2>
       <h2 class="secondary-text size-2">{{ this.data.doctor.name }}</h2>
@@ -63,7 +63,7 @@ export default {
       doc.setFont('Roboto-Regular')
       doc.text('ToothMaster96', 20, 10)
       doc.text('Врач:'.concat(this.data.doctor.surname).concat(" ").concat(this.data.doctor.name).concat(" ").concat(this.data.doctor.second_name), 1, 20)
-      doc.text('Специальность: Стоматолог', 1, 30)
+      doc.text('Специальность: '.concat(this.data.doctor.speciality), 1, 30)
       let data =new Date(this.data.calendar.dateTime).getUTCDate().toString()
           .concat("-").concat(new Date(this.data.calendar.dateTime).getUTCMonth()+1)
           .concat("-").concat(new Date(this.data.calendar.dateTime).getUTCFullYear())

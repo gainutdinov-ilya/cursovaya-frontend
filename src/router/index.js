@@ -10,14 +10,6 @@ const routes = [
     }
   },
   {
-    path: '/about',
-    name: 'About',
-
-    component: function () {
-      return import('../views/About.vue')
-    }
-  },
-  {
     path: '/login',
     name: 'Login',
     component: function () {
@@ -25,6 +17,16 @@ const routes = [
     },
     meta: {
       isLoggined: false
+    }
+  },
+  {
+    path: '/client/appointment',
+    name: 'ClientAppointment',
+    component: function () {
+      return import('../views/PersonalAppointment.vue')
+    },
+    meta: {
+      isPersonal: true
     }
   },
   {
@@ -51,7 +53,7 @@ const routes = [
     path: '/listUsers',
     name: 'listUsers',
     component: function () {
-      return import('../views/AdminUsers.vue')
+      return import('../views/PersonalAdminUsers.vue')
     },
     meta: {
       isPersonal: true
@@ -72,7 +74,7 @@ const routes = [
     path: '/ticket/approve',
     name: 'DoctorPage',
     component: function (){
-      return import('../views/DoctorPage.vue')
+      return import('../views/DoctorApproveTicket.vue')
     },
     meta: {
       isDoctor: true,
@@ -82,7 +84,7 @@ const routes = [
     path: '/user/register',
     name: 'UserRegister',
     component: function (){
-      return import('../views/AdminCreateAccount.vue')
+      return import('../views/PersonalAdminCreateAccount.vue')
     },
     meta: {
       isPersonal: true,

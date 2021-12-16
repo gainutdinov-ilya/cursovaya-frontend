@@ -97,7 +97,7 @@
     <div class="actions">
 
     </div>
-    <div class="info">
+    <div v-if="!this.$store.getters.isDoctor && !this.$store.getters.isPersonal || this.$store.getters.isAdmin" class="info">
       <h2 class="primary-text">Уведомления</h2>
       <div class="alerts">
         <div v-for="alert in alerts" :key="alert" class="alert">
@@ -109,7 +109,6 @@
     </div>
     <img class="image" v-bind:src="require('/public/home.svg')" v-bind:width="1400" v-bind:height='520'>
   </div>
-
 </template>
 
 <script>
@@ -216,7 +215,6 @@ export default {
   font-size: 48px;
   font-weight: 500;
   margin: 1px;
-
 }
 
 .landing .text li {
@@ -251,6 +249,7 @@ export default {
   position: absolute;
   left: 1010px;
   top: 255px;
+  z-index: 0;
 }
 
 
@@ -275,6 +274,8 @@ export default {
   margin-top: 10px;
   transition: 1s;
   border-bottom: 1px dotted transparent;
+  z-index: 9999;
+  position: relative;
 }
 
 .profile .tool-tip:hover::after{
@@ -318,7 +319,6 @@ export default {
   bottom: 30px;
 }
 .image{
-  z-index: 1;
   position: absolute;
   bottom: 0;
 }

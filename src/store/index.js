@@ -103,6 +103,7 @@ export default createStore({
             });
       })
     },
+
     logout(context){
       localStorage.removeItem('accessToken')
       localStorage.removeItem('role')
@@ -134,6 +135,22 @@ export default createStore({
       })
     },
     //get actions
+    searchUser(context, data){
+      return new Promise( (resolve , reject) => {
+        instance.get('/api/user/search',{headers:{
+            'Authorization': `Bearer ${this.state.token}`
+          },
+          params: data
+        })
+            .then(response =>{
+              resolve(response.data)
+            })
+            .catch(error =>{
+              reject(error)
+            })
+      })
+    }
+    ,
     getAlerts(){
       return new Promise( (resolve , reject) => {
         instance.get('/api/alerts',{headers:{
@@ -199,9 +216,12 @@ export default createStore({
     },
     getUserByID(context, id){
       return new Promise((resolve)=>{
-        instance.get('/api/user/id?id='+id,{headers:{
+        instance.get('/api/user/id',{headers:{
             'Authorization': `Bearer ${this.state.token}`
-          }})
+          },params: {
+            id: id
+          }
+        })
             .then( response =>{
               resolve(response.data)
             });
@@ -222,6 +242,22 @@ export default createStore({
     getNote(context, data){
       return new Promise((resolve, reject)=> {
         instance.get('/api/calendar/note', {
+          headers: {
+            'Authorization': `Bearer ${this.state.token}`
+          },
+          params: data
+        })
+            .then(response => {
+              resolve(response.data)
+            })
+            .catch(response => {
+              reject(response.data)
+            })
+      })
+    },
+    getNotes(context, data){
+      return new Promise((resolve, reject)=> {
+        instance.get('/api/user/notes', {
           headers: {
             'Authorization': `Bearer ${this.state.token}`
           },
@@ -280,7 +316,8 @@ export default createStore({
     createNote(context, data){
       return new Promise((resolve, reject)=> {
         instance.post('/api/calendar/note', {
-          'id': data.id
+          'id': data.id,
+          'userID': data.userID || null
         })
             .then(response=>{
               resolve(response)
