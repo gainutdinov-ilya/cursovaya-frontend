@@ -1,5 +1,11 @@
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production'
-        ? '/tooth/'
-        : '/'
+    devServer: {
+        proxy: {
+            '^/api': {
+                target: 'http://130.162.52.214:8080',
+                ws: true,
+                changeOrigin: true
+            }
+        }
+    }
 }
