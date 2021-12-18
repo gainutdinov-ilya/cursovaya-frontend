@@ -4,7 +4,7 @@ import axios from 'axios';
 if(localStorage.getItem('accessToken') != null)
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
 
-const instance = axios.create({baseURL:'https://120codes.000webhostapp.com'});
+const instance = axios.create({baseURL:'http://localhost'});
 
 export default createStore({
   state: {
