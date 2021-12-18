@@ -21,6 +21,7 @@ export default {
           .catch(() => {
             alert("Похоже время вашего сеанса вышло, авторизуйтесь заново")
             this.$store.dispatch('logout')
+            this.$router.push({path: `/login`})
             clearInterval(interval)
           })
     }, 30000)
