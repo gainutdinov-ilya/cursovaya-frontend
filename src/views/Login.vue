@@ -97,6 +97,12 @@ export default {
   color:white;
 }
 
+.login-form input[type="submit" i]:focus{
+  transition: 2s;
+  background-color: var(--main-color);
+  color:white;
+}
+
 @font-face {
   font-family: 'tooth';
   src: url('/assets/font/tooth.eot?0000');

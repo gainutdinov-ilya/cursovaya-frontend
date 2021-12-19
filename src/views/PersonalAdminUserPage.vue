@@ -178,6 +178,7 @@ export default {
   border-bottom: 1px dotted transparent;
   min-width: 100px;
   min-height: 32px;
+  background: white;
 }
 
 .personal-action:hover {
