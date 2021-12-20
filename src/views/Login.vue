@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .login-form{
   position: absolute;
   width: 800px;
