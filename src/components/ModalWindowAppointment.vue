@@ -2,7 +2,7 @@
   <div class="pointer" @click="open()">
     {{ this.count }}
   </div>
-  <div class="appointmentWindow" v-if="show">
+  <div class="changePasswordWindow" v-if="show">
     <h2 class="primary-text size-2">Запись на приём</h2>
     <div v-on:click="close()" class="close pointer">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -138,7 +138,7 @@ export default {
 </script>
 
 <style scoped>
-.appointmentWindow {
+.changePasswordWindow {
   position: absolute;
   z-index: 9999;
   width: 770px;

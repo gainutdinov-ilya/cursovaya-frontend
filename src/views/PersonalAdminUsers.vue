@@ -15,7 +15,7 @@
     <button class="disabled default-button page-button left" v-else>Назад</button>
     <button class="default-button page-button right pointer" v-if="count > (limit + offset)" @click="next(); getUsers()">Далее</button>
     <button class="default-button page-button right" v-else>Далее</button>
-    <router-link class="default-button page-button middle pointer"  to="/user/register">Зарегестрировать нового пользователя</router-link>
+    <button class="default-button page-button middle pointer" @click="this.$router.push({path:'/user/register'})">Зарегестрировать нового пользователя</button>
   </div>
   <preloader ref="preloader"></preloader>
 </template>

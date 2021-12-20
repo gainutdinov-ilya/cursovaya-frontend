@@ -8,7 +8,7 @@
         <li>И звонков</li>
         <li>Всё очень просто!</li>
       </div>
-      <button type="button" @click="open()">Запишись онлайн</button>
+      <button class="default-button" type="button" @click="open()">Запишись онлайн</button>
     </div>
     <img :src="require('@/assets/landing.jpg')" alt="" class="landing-image" v-bind:height='520' v-bind:width='520'>
   </div>
@@ -20,14 +20,17 @@
       <h2 v-else-if="credentials.role == 'doctor'" class="role">Врач</h2>
       <div>
         <span class="personal">Фамилия:</span>
-        <div tool-tip="Кликните на то что хотите изменить" class="pointer personal personal-action tool-tip" v-if="!onEditSurname" @click="lastEdited = 'surname'; onEditSurname = true; cache = credentials.surname">{{credentials.surname}}</div>
+        <div tool-tip="Кликните на то что хотите изменить" class="pointer personal personal-action tool-tip"
+             v-if="!onEditSurname" @click="lastEdited = 'surname'; onEditSurname = true; cache = credentials.surname">
+          {{ credentials.surname }}
+        </div>
         <input
             tool-tip="Кликните на то что хотите изменить"
             class="personal personal-action-selected tool-tip"
             v-else
             @blur="onEditSurname = false; saveCredentials()"
-            @keydown.enter="onEditSurname = false; saveCredentials()"
-            @keydown.esc="onEditSurname = false; credentials.surname = cache"
+            @keydown.enter="onEditSurname = false"
+            @keydown.esc="onEditSurname = false;  this.credentials.surname = cache"
             type="text"
             v-model="credentials.surname"
             v-focus
@@ -36,11 +39,13 @@
       </div>
       <div>
         <span class="personal">Имя: </span>
-        <div class="pointer personal personal-action" v-if="!onEditName" @click="lastEdited = 'name'; onEditName = true; cache = credentials.name">{{credentials.name}}</div>
+        <div class="pointer personal personal-action" v-if="!onEditName"
+             @click="lastEdited = 'name'; onEditName = true; cache = credentials.name">{{ credentials.name }}
+        </div>
         <input v-else
                class="personal personal-action-selected"
-               @blur="onEditName = false; saveCredentials()"
-               @keydown.enter="onEditName = false; saveCredentials()"
+               @blur="onEditName = false;saveCredentials()"
+               @keydown.enter="onEditName = false"
                @keydown.esc="onEditName = false; credentials.name = cache"
                type="text"
                v-model="credentials.name"
@@ -50,11 +55,14 @@
       </div>
       <div>
         <span class="personal">Отчество: </span>
-        <div class="pointer personal personal-action" v-if="!onEditSecName" @click="lastEdited = 'secName' ;onEditSecName = true; cache = credentials.second_name" >{{credentials.second_name}}</div>
+        <div class="pointer personal personal-action" v-if="!onEditSecName"
+             @click="lastEdited = 'secName' ;onEditSecName = true; cache = credentials.second_name">
+          {{ credentials.second_name }}
+        </div>
         <input v-else
                class="personal personal-action-selected"
-               @blur="onEditSecName = false; saveCredentials()"
-               @keydown.enter="onEditSecName = false; saveCredentials()"
+               @blur="onEditSecName = false;saveCredentials()"
+               @keydown.enter="onEditSecName = false"
                @keydown.esc="onEditSecName = false; credentials.second_name = cache"
                type="text"
                v-model="credentials.second_name"
@@ -64,13 +72,16 @@
       </div>
       <div>
         <span class="personal">Мобильный телефон: </span>
-        <div class="pointer personal personal-action" v-if="!onEditPhone" @click="lastEdited = 'phone' ;onEditPhone = true; cache = credentials.phone_number" >{{credentials.phone_number}}</div>
+        <div class="pointer personal personal-action" v-if="!onEditPhone"
+             @click="lastEdited = 'phone' ;onEditPhone = true; cache = credentials.phone_number">
+          {{ credentials.phone_number }}
+        </div>
         <input v-else
                v-focus
                class="personal personal-action-selected"
                @blur="onEditPhone = false; saveCredentials()"
-               @keydown.enter="onEditPhone = false; saveCredentials()"
-               @keydown.esc="onEditPhone = false; credentials.phone_number = cache"
+               @keydown.enter="onEditPhone = false"
+               @keydown.esc="onEditPhone = false; this.credentials.phone_number = cache"
                type="text"
                v-model="credentials.phone_number"
         >
@@ -78,13 +89,15 @@
       </div>
       <div>
         <span class="personal">Номер полиса: </span>
-        <div class="personal pointer personal-action" v-if="!onEditOms" @click="lastEdited = 'phone' ;onEditOms = true; cache = credentials.oms" >{{credentials.oms}}</div>
+        <div class="personal pointer personal-action" v-if="!onEditOms"
+             @click="lastEdited = 'phone' ;onEditOms = true; cache =  this.credentials.oms">{{ credentials.oms }}
+        </div>
         <input v-else
                v-focus
                class="personal personal-action-selected"
                @blur="onEditOms = false; saveCredentials()"
-               @keydown.enter="onEditOms = false; saveCredentials()"
-               @keydown.esc="onEditOms = false; credentials.oms = cache"
+               @keydown.enter="onEditOms = false"
+               @keydown.esc="onEditOms = false; this.credentials.oms = cache"
                type="text"
                v-model="credentials.oms"
                maxlength="16"
@@ -93,31 +106,56 @@
         >
         <br>
       </div>
-    </div>
-    <div class="actions">
+      <div>
+        <span class="personal">Электронная почта:</span>
+        <div class="pointer personal personal-action"
+             v-if="!onEditEmail" @click="lastEdited = 'email'; onEditEmail = true; cache = credentials.email">
+          {{ credentials.email }}
+        </div>
+        <input
+            tool-tip="Кликните на то что хотите изменить"
+            class="personal personal-action-selected tool-tip"
+            v-else
+            @blur="onEditEmail = false; saveCredentials()"
+            @keydown.enter="onEditEmail = false"
+            @keydown.esc="onEditEmail = false; credentials.email = cache"
+            type="text"
+            v-model="credentials.email"
+            v-focus
+        >
+      </div>
 
     </div>
-    <div v-if="!this.$store.getters.isDoctor && !this.$store.getters.isPersonal || this.$store.getters.isAdmin" class="info">
+    <div class="actions">
+      <button class="default-button-margin" @click="this.$refs.changePassword.open()">Изменить пароль</button><br>
+      <button class="default-button-margin" @click="this.$store.dispatch('logoutFromAll'); alert('Завершены все сеансы кроме этого')">Завершить сеансы</button>
+    </div>
+    <div v-if="!this.$store.getters.isDoctor && !this.$store.getters.isPersonal || this.$store.getters.isAdmin"
+         class="info">
       <h2 class="primary-text">Уведомления</h2>
       <div class="alerts">
         <div v-for="alert in alerts" :key="alert" class="alert">
-          <h2 class="primary-text size-1">{{alert.title}}</h2>
-          <span class="secondary-text text">{{alert.text}}</span><br>
-          <router-link class="action primary-text" v-bind:to="alert.action">{{alert.action_title}}</router-link>
+          <h2 class="primary-text size-1">{{ alert.title }}</h2>
+          <span class="secondary-text text">{{ alert.text }}</span><br>
+          <router-link class="action primary-text" v-bind:to="alert.action">{{ alert.action_title }}</router-link>
         </div>
       </div>
     </div>
-    <img class="image" v-bind:src="require('/public/home.svg')" v-bind:width="1400" v-bind:height='520'>
+    <img class="image" style="z-index: 100" v-bind:src="require('/public/home.svg')" v-bind:width="1400" v-bind:height='520'>
   </div>
+  <ModalWindowChangePassword ref="changePassword" v-bind:no-old="false" v-bind:id="this.credentials.id"></ModalWindowChangePassword>
+
+
 </template>
 
 <script>
 import ModalWindow from '@/components/ModalWindowLanding'
-
+import ModalWindowChangePassword from "@/components/ModalWindowChangePassword";
 export default {
   name: 'Home',
   components: {
-    ModalWindow
+    ModalWindow,
+    ModalWindowChangePassword
   },
   directives: {
     focus: {
@@ -128,14 +166,13 @@ export default {
   },
   data: function () {
     return {
-      credentials: {
-
-      },
+      credentials: {},
       onEditName: false,
       onEditSurname: false,
       onEditSecName: false,
       onEditPhone: false,
       onEditOms: false,
+      onEditEmail: false,
       cache: null,
       lastEdited: null,
       alerts: null
@@ -145,8 +182,8 @@ export default {
     open() {
       this.$refs.modal.show = true
     },
-    saveCredentials(){
-      if(this.lastEdited === 'name' && this.credentials.name === this.cache
+    saveCredentials() {
+      if (this.lastEdited === 'name' && this.credentials.name === this.cache
           ||
           this.lastEdited === 'surname' && this.credentials.surname === this.cache
           ||
@@ -155,28 +192,36 @@ export default {
           this.lastEdited === 'phone' && this.credentials.phone_number === this.cache
           ||
           this.lastEdited === 'oms' && this.credentials.oms === this.cache
-      ){
+          ||
+          this.lastEdited === 'email' && this.credentials.email === this.cache
+      ) {
         return
       }
       this.$store.dispatch('updateCreditanials', this.credentials)
+        .catch(() => {
+          this.$store.dispatch('getCredentials')
+          this.credentials = this.$store.getters.getCredentials
+          alert("Адрес электронной почты уже занят другим пользователем сайта")
+          return;
+        })
     }
   },
   computed: {
-    loggedIn(){
+    loggedIn() {
       return this.$store.getters.loggedIn
     }
   },
   mounted() {
-    if(this.loggedIn) {
+    if (this.loggedIn) {
       this.$store.dispatch('getCredentials')
       this.credentials = this.$store.getters.getCredentials
       this.$store.dispatch('getAlerts')
-          .then(promise =>{
+          .then(promise => {
             this.alerts = promise
           })
       setInterval(() => {
         this.$store.dispatch('getAlerts')
-            .then(promise =>{
+            .then(promise => {
               this.alerts = promise
             })
       }, 60000)
@@ -227,23 +272,12 @@ export default {
   color: var(--second-color);
 }
 
-.landing button , .landing .button{
-  border: none;
-  background: var(--another-color);
-  color: var(--second-color);
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 48px;
-  line-height: 56px;
-  padding: 10px;
-  margin-top: 45px;
-  bottom: 0;
+.landing button, .landing .button {
+  width: 355px;
+  height: 85px;
+  font-size: 40px;
 }
 
-.landing button:focus , .landing .button:focus {
-  border: none;
-}
 
 .landing-image {
   position: absolute;
@@ -253,12 +287,13 @@ export default {
 }
 
 
-.profile{
+.profile {
   position: absolute;
-  width: 720px
+  width: 720px;
+  z-index: 1000;
 }
 
-.profile h2{
+.profile h2 {
   margin: 0;
 }
 
@@ -278,11 +313,12 @@ export default {
   position: relative;
 }
 
-.profile .tool-tip:hover::after{
+.profile .tool-tip:hover::after {
   content: attr(tool-tip);
   position: absolute;
-  left: 300px; top: 30%;
-  z-index: 1;
+  left: 300px;
+  top: 30%;
+  z-index: 9999;
   font-size: 15px;
   padding: 5px 10px;
   border: 1px solid var(--another-color);
@@ -312,16 +348,21 @@ export default {
   width: 350px
 }
 
-.actions{
+.actions {
   display: inline-block;
   position: absolute;
   width: 720px;
-  bottom: 30px;
+  top: 400px;
+  z-index: 999;
 }
-.image{
+
+.display .image {
   position: absolute;
-  bottom: 0;
+  top: 310px;
+  right: -120px;
+  z-index: 1;
 }
+
 .actions .action {
   display: inline-block;
   border: none;
@@ -338,18 +379,19 @@ export default {
   cursor: pointer;
 }
 
-.info{
+.info {
   width: 640px;
   position: absolute;
+  top: 0px;
   right: 30px;
 }
 
-.info h2{
+.info h2 {
   font-size: 48px;
   margin: 0;
 }
 
-.info .alerts{
+.info .alerts {
   position: absolute;
   z-index: 9999;
   margin-top: 10px;
@@ -363,18 +405,18 @@ export default {
   background: white;
 }
 
-.alerts .alert{
+.alerts .alert {
 
   padding: 10px;
   border-top: solid 2px #57CCB5;
   border-bottom: solid 2px #57CCB5;
 }
 
-.alert .text,.alert .action {
+.alert .text, .alert .action {
   font-size: 23px;
 }
 
-.alert .action{
+.alert .action {
   text-decoration: none;
 }
 

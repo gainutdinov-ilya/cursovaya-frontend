@@ -102,26 +102,67 @@ h2 {
   color: var(--second-color);
 }
 
+
 .default-button {
-  border: none;
-  background: var(--another-color);
-  color: var(--second-color);
   font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  padding: 10px;
+  font-size: 35px;
+  margin-top: 25px;
+  height: 65px;
+  text-align: center;
+  border-radius: 0px;
+  border: 2px solid var(--main-color);
+  padding: 0 0 0 0;
+  color: var(--main-color);
+  box-sizing: unset;
+  background: transparent;
+  transition: 1s;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-.default-button-margin{
-  border: none;
-  background: var(--another-color);
+.default-button:hover{
+  transition: 2s;
+  background-color: var(--main-color);
+  color:white;
+}
+
+.default-button::placeholder{
+  color: var(--main-color);
+}
+
+.default-button :focus::placeholder{
   color: var(--second-color);
+}
+
+
+.default-button-margin {
   font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  padding: 10px;
-  margin-right: 10px;
-  margin-top: 10px;
+  font-size: 35px;
+  margin-top: 25px;
+  height: 65px;
+  text-align: center;
+  border-radius: 0px;
+  border: 2px solid var(--main-color);
+  padding: 0 0 0 0;
+  color: var(--main-color);
+  box-sizing: unset;
+  background: transparent;
+  transition: 1s;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.default-button-margin:hover{
+  transition: 2s;
+  background-color: var(--main-color);
+  color:white;
+}
+
+.default-button-margin::placeholder{
+  color: var(--main-color);
+}
+
+.default-button-margin:focus::placeholder{
+  color: var(--second-color);
 }
 
 .pointer {

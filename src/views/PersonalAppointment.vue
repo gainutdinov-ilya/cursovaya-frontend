@@ -5,14 +5,14 @@
     <input type="text" v-model="search_query" v-bind:id="search" class="styled-input size-2"
            @keydown.enter="query()"><br>
     <button class="default-button-margin size-2" @click="query()">Найти</button>
-    <button class="default-button-margin size-2" @click="clear()">Очистить</button>
+    <button style="margin-left:10px"  class="default-button-margin size-2" @click="clear()">Очистить</button>
     <template v-if="search_result !== null">
       <h2 style="margin-top: 10px" class="primary-text size-2">Результаты поиска</h2>
       <div class="search-result">
         <div class="secondary-text result" v-for="user in search_result" :key="user.id">
           <span class="credentials"
                 style="font-size: 20px">{{ user.surname }} {{ user.name }} {{ user.second_name }}</span>
-          <button class="default-button" @click="select(user.id)">Выбрать</button>
+          <button class="default-button resize" @click="select(user.id)">Выбрать</button>
         </div>
       </div>
     </template>
@@ -26,7 +26,7 @@
               ticket.doctor.name[0]
             }}. {{ ticket.doctor.second_name[0] }} {{ ticket.calendar }} {{ ticket.ticket }}</span>
           <span v-if="ticket.note.visited"> + </span>
-          <button class="default-button" @click="cancel(ticket.note.id)">Отменить</button>
+          <button v-if="!ticket.note.visited" class="default-button resize" @click="cancel(ticket.note.id)">Отменить</button>
         </div>
       </div>
       <div class="calendar scroll">
@@ -210,6 +210,12 @@ export default {
   padding: 5px;
   font-size: 1.5em;
 
+}
+
+.search-result .result .resize{
+  height: 35.5px;
+  margin: 0;
+  font-size: 18px;
 }
 
 </style>

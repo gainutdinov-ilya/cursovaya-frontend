@@ -4,12 +4,13 @@ import axios from 'axios';
 if(localStorage.getItem('accessToken') != null)
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
 
-const instance = axios.create({baseURL:'http://localhost:8000'});
+const instance = axios.create({baseURL:'http://api'});
 
 export default createStore({
   state: {
     token: localStorage.getItem('accessToken') || null,
     credentials: {
+      id: null,
       name: null,
       surname: null,
       second_name: null,
@@ -73,6 +74,7 @@ export default createStore({
       }
     },
     setCredentials(state, credentials){
+      state.credentials.id = credentials.id
       state.credentials.role = credentials.role
       state.credentials.email = credentials.email
       state.credentials.name = credentials.name
@@ -103,16 +105,11 @@ export default createStore({
             });
       })
     },
-
     logout(context){
       localStorage.removeItem('accessToken')
       localStorage.removeItem('role')
-
       context.commit('logout')
-      instance.post('/api/logout',{headers:{
-          'Authorization': `Bearer ${this.state.token}`
-        }});
-
+      instance.delete('/api/logout');
       context.commit('removeToken')
     },
     register(context, data){
@@ -133,6 +130,9 @@ export default createStore({
             reject(error)
           })
       })
+    },
+    logoutFromAll(){
+      instance.delete('/api/logout/anywhere')
     },
     //get actions
     searchUser(context, data){
@@ -163,8 +163,7 @@ export default createStore({
               reject(error)
             })
       })
-    }
-    ,
+    },
     getCredentials(context){
       return new Promise( (resolve , reject) => {
         instance.get('/api/user',{headers:{
@@ -274,13 +273,19 @@ export default createStore({
     //put  actions
     updateCreditanials(context, data){
       return new Promise((resolve, reject)=>{
-        instance.put('/api/user', {
-          'name': data.name,
-          'surname': data.surname,
-          'second_name': data.second_name,
-          'phone_number': data.phone_number,
-          'oms': data.oms,
-        })
+        instance.put('/api/user', data)
+            .then(response => {
+              resolve(response)
+            })
+            .catch(error => {
+              reject(error)
+            })
+      })
+    },
+    updateUserByID(context, data){
+      return new Promise((resolve, reject)=>{
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+        instance.put('/api/user/id', data)
             .then(response => {
               resolve(response)
             })
@@ -290,27 +295,16 @@ export default createStore({
       })
 
     },
-    updateUserByID(context, data){
-      return new Promise((resolve, reject)=>{
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
-        instance.put('/api/user/id', {
-          'id': data.id,
-          'name': data.name,
-          'surname': data.surname,
-          'second_name': data.second_name,
-          'phone_number': data.phone_number,
-          'oms': data.oms,
-          'role': data.role,
-          'speciality': data.speciality
-        },)
-            .then(response => {
+    updatePassword(context,data){
+      return new Promise((resolve, reject)=> {
+        instance.put('/api/user/password', data)
+            .then(response=>{
               resolve(response)
             })
             .catch(error => {
               reject(error)
             })
       })
-
     },
     //create
     createNote(context, data){

@@ -10,7 +10,7 @@
       <div v-else-if="user.role === 'personal'">Персонал</div>
       <div v-else-if="user.role === 'doctor'">Врач</div>
     </div>
-    <button class="default-button pointer right" @click="goToEdit()">Редактировать</button>
+    <button class="default-button pointer right resize" @click="goToEdit()">Редактировать</button>
   </div>
 </template>
 
@@ -53,5 +53,8 @@ export default {
 .right{
   float:right;
 }
-
+.resize{
+  height: 35px;
+  margin: 0;
+}
 </style>

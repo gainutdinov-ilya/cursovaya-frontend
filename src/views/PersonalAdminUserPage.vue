@@ -2,6 +2,23 @@
   <div class="display">
     <h2 class="primary-text size-3 first-text">Редактирование пользователя</h2>
     <div>
+      <span class="personal">Электронная почта: </span>
+      <div class="personal pointer personal-action" v-if="!onEditEmail" @click="lastEdited = 'email' ;onEditEmail = true; cache = credentials.email" >{{credentials.email}}</div>
+      <input v-else
+             v-focus
+             class="personal personal-action-selected"
+             @blur="onEditEmail = false;"
+             @keydown.enter="onEditEmail = false;"
+             @keydown.esc="onEditEmail = false; credentials.email = cache"
+             type="text"
+             v-model="credentials.email"
+             maxlength="16"
+             minlength="14"
+             required
+      >
+      <br>
+    </div>
+    <div>
       <span class="personal">Фамилия:</span>
       <div class="pointer personal personal-action tool-tip" v-if="!this.onEditSurname" @click="lastEdited = 'surname'; this.onEditSurname = true; cache = credentials.surname">{{credentials.surname}}</div>
       <input
@@ -76,6 +93,7 @@
       >
       <br>
     </div>
+
     <div v-if="this.$store.getters.isAdmin">
       <span class="personal">Роль:</span>
       <select class="personal" v-model="credentials.role">
@@ -105,14 +123,21 @@
       <br>
     </div>
     <button class="default-button-margin default-button-size pointer" @click="saveUser()">Сохранить</button>
+    <button class="default-button-margin default-button-size pointer" @click="this.$refs.changePassword.open()">Изменить пароль</button>
     <button v-if="this.$store.getters.isAdmin" class="default-button-margin default-button-size pointer" @click="deleteUser()">Удалить</button>
     <button class="default-button-margin default-button-size pointer" @click="this.$router.go(-1)">Назад</button>
   </div>
+  <ModalWindowChangePassword v-bind:no-old="true" ref="changePassword" v-bind:id="credentials.id"></ModalWindowChangePassword>
 </template>
 
 <script>
+import ModalWindowChangePassword from "@/components/ModalWindowChangePassword";
+
 export default {
   name: "UserPage",
+  components:{
+    ModalWindowChangePassword
+  },
   data: function (){
     return {
       credentials:{
@@ -124,6 +149,7 @@ export default {
       onEditPhone: false,
       onEditOms: false,
       onEditSpec: false,
+      onEditEmail: false,
       cache: null,
       lastEdited: null
     }
@@ -142,7 +168,7 @@ export default {
         alert("Сохранено")
       })
       .catch(() =>{
-        alert("Ошибка, попробуйте ещё раз")
+        alert("Ошибка, данная почта уже занята другим пользователем")
       })
     },
     deleteUser(){

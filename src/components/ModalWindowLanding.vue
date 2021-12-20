@@ -113,11 +113,10 @@ export default {
 }
 
 .login .box .loginBlock .button-login {
-  background: var(--main-color);
-  color: var(--second-color);
+  color: var(--main-color);
   position: absolute;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
   height: 65px;
   top: 350px;
   left: 70px;
@@ -129,6 +128,13 @@ export default {
   display: flex;
   align-items: center;
   text-align: center;
+  border: solid 2px var(--main-color);
+  transition: 2s;
+}
+
+.login .box .loginBlock .button-login:hover{
+  background: var(--main-color);
+  color: white;
 }
 
 .login .box .registerBlock {
@@ -144,8 +150,8 @@ export default {
   padding-left: 15px;
   padding-right: 15px;
   height: 65px;
-  color: white;
-  background: var(--second-color);
+  color: var(--second-color);
+
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
@@ -154,6 +160,13 @@ export default {
   display: flex;
   align-items: center;
   text-align: center;
+  border:solid 2px var(--second-color);
+  transition: 2s;
+}
+
+.login .box .registerBlock .button-register:hover{
+  background: var(--second-color);
+  color: white;
 }
 
 .login .box .registerBlock .text {
