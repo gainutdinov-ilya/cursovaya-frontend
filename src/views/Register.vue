@@ -19,18 +19,18 @@ export default {
     register(){
       const fio = this.fio.split(' ');
       if(fio.length != 3){
-        alert("Введите Фамилию Имя Отчество")
-        return 0
+        alert("Введите 'Фамилию Имя Отчество' без лишних пробелов как представлено в примере")
+        return
       }
       fio.forEach(element => {
         if(element === ''){
-          alert("Введите Фамилию Имя Отчество без лишних пробелов")
-          return 0
+          alert("Введите 'Фамилию Имя Отчество' без лишних пробелов как представлено в примере")
+          return
         }
       })
       if(this.password !== this.password_repeated){
         alert("Введёные пароли не совпадают")
-        return 0
+        return
       }
       const name = fio[1]
       const surname = fio[0]
