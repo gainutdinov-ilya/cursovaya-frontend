@@ -134,7 +134,7 @@
     </div>
     <div class="actions">
       <button class="default-button-margin" @click="this.$refs.changePassword.open()">Изменить пароль</button><br>
-      <button class="default-button-margin" @click="logoutFromAll()">Завершить сеансы</button>
+      <button tool-tip="Если вы забыли выйти с других устройств - позволит завершить сеанс везде кроме этого устройства" class="default-button-margin tool-tip-button" @click="logoutFromAll()">Завершить сеансы</button>
     </div>
     <div v-if="!this.$store.getters.isDoctor && !this.$store.getters.isPersonal || this.$store.getters.isAdmin"
          class="info">
@@ -323,15 +323,24 @@ export default {
   position: relative;
 
 }
-
-.profile .tool-tip:hover::after {
+.tool-tip:hover::after {
   content: attr(tool-tip);
   position: absolute;
-  left: 300px;
-  top: 30%;
-  z-index: 9999;
+  z-index: 0999;
+  right: 10px;
+  top: 0px;
   font-size: 15px;
   padding: 5px 10px;
+  background: var(--main-color);
+}
+
+.tool-tip-button:hover::after {
+  content: attr(tool-tip);
+  position: absolute;
+  z-index: 0999;
+  font-size: 15px;
+  padding: 5px 10px;
+  background: var(--main-color);
   border: 1px solid var(--another-color);
 }
 .profile .personal-action{
