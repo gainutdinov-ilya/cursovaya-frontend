@@ -128,7 +128,7 @@
     </div>
     <div class="actions">
       <button class="default-button-margin" @click="this.$refs.changePassword.open()">Изменить пароль</button><br>
-      <button class="default-button-margin" @click="this.$store.dispatch('logoutFromAll'); alert('Завершены все сеансы кроме этого')">Завершить сеансы</button>
+      <button class="default-button-margin" @click="logoutFromAll()">Завершить сеансы</button>
     </div>
     <div v-if="!this.$store.getters.isDoctor && !this.$store.getters.isPersonal || this.$store.getters.isAdmin"
          class="info">
@@ -182,6 +182,11 @@ export default {
     open() {
       this.$refs.modal.show = true
     },
+    logoutFromAll(){
+      this.$store.dispatch('logoutFromAll')
+      alert('Завершены все сеансы кроме этого')
+    }
+    ,
     saveCredentials() {
       if (this.lastEdited === 'name' && this.credentials.name === this.cache
           ||
