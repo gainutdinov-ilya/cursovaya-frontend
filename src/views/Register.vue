@@ -24,7 +24,7 @@ export default {
       }
       fio.forEach(element => {
         if(element === ''){
-          alert("Введите Фамилию Имя Отчество")
+          alert("Введите Фамилию Имя Отчество без лишних пробелов")
           return 0
         }
       })
