@@ -18,7 +18,7 @@
       <h2 v-else-if="credentials.role == 'admin'" class="role">Администратор</h2>
       <h2 v-else-if="credentials.role == 'personal'" class="role">Персонал</h2>
       <h2 v-else-if="credentials.role == 'doctor'" class="role">Врач</h2>
-      <div>
+      <div class="var">
         <span class="personal">Фамилия:</span>
         <div tool-tip="Кликните на то что хотите изменить" class="pointer personal personal-action tool-tip"
              v-if="!onEditSurname" @click="lastEdited = 'surname'; onEditSurname = true; cache = credentials.surname">
@@ -28,16 +28,17 @@
             tool-tip="Кликните на то что хотите изменить"
             class="personal personal-action-selected tool-tip"
             v-else
-            @blur="onEditSurname = false; saveCredentials()"
+            @blur="onEditSurname = false;saveCredentials()"
             @keydown.enter="onEditSurname = false"
             @keydown.esc="onEditSurname = false;  this.credentials.surname = cache"
             type="text"
             v-model="credentials.surname"
             v-focus
+            required
         >
         <br>
       </div>
-      <div>
+      <div class="var">
         <span class="personal">Имя: </span>
         <div class="pointer personal personal-action" v-if="!onEditName"
              @click="lastEdited = 'name'; onEditName = true; cache = credentials.name">{{ credentials.name }}
@@ -50,10 +51,11 @@
                type="text"
                v-model="credentials.name"
                v-focus
+               required
         >
         <br>
       </div>
-      <div>
+      <div class="var">
         <span class="personal">Отчество: </span>
         <div class="pointer personal personal-action" v-if="!onEditSecName"
              @click="lastEdited = 'secName' ;onEditSecName = true; cache = credentials.second_name">
@@ -67,10 +69,11 @@
                type="text"
                v-model="credentials.second_name"
                v-focus
+               required
         >
         <br>
       </div>
-      <div>
+      <div class="var">
         <span class="personal">Мобильный телефон: </span>
         <div class="pointer personal personal-action" v-if="!onEditPhone"
              @click="lastEdited = 'phone' ;onEditPhone = true; cache = credentials.phone_number">
@@ -79,15 +82,18 @@
         <input v-else
                v-focus
                class="personal personal-action-selected"
-               @blur="onEditPhone = false; saveCredentials()"
+               @blur="onEditPhone = false;saveCredentials()"
                @keydown.enter="onEditPhone = false"
                @keydown.esc="onEditPhone = false; this.credentials.phone_number = cache"
                type="text"
+               minlength="10"
+               maxlength="12"
                v-model="credentials.phone_number"
+               required
         >
         <br>
       </div>
-      <div>
+      <div class="var">
         <span class="personal">Номер полиса: </span>
         <div class="personal pointer personal-action" v-if="!onEditOms"
              @click="lastEdited = 'phone' ;onEditOms = true; cache =  this.credentials.oms">{{ credentials.oms }}
@@ -95,7 +101,7 @@
         <input v-else
                v-focus
                class="personal personal-action-selected"
-               @blur="onEditOms = false; saveCredentials()"
+               @blur="onEditOms = false;saveCredentials()"
                @keydown.enter="onEditOms = false"
                @keydown.esc="onEditOms = false; this.credentials.oms = cache"
                type="text"
@@ -106,7 +112,7 @@
         >
         <br>
       </div>
-      <div>
+      <div class="var">
         <span class="personal">Электронная почта:</span>
         <div class="pointer personal personal-action"
              v-if="!onEditEmail" @click="lastEdited = 'email'; onEditEmail = true; cache = credentials.email">
@@ -116,15 +122,15 @@
             tool-tip="Кликните на то что хотите изменить"
             class="personal personal-action-selected tool-tip"
             v-else
-            @blur="onEditEmail = false; saveCredentials()"
+            @blur="onEditEmail = false;saveCredentials()"
             @keydown.enter="onEditEmail = false"
             @keydown.esc="onEditEmail = false; credentials.email = cache"
             type="text"
             v-model="credentials.email"
             v-focus
+            required
         >
       </div>
-
     </div>
     <div class="actions">
       <button class="default-button-margin" @click="this.$refs.changePassword.open()">Изменить пароль</button><br>
@@ -185,8 +191,7 @@ export default {
     logoutFromAll(){
       this.$store.dispatch('logoutFromAll')
       alert('Завершены все сеансы кроме этого')
-    }
-    ,
+    },
     saveCredentials() {
       if (this.lastEdited === 'name' && this.credentials.name === this.cache
           ||
@@ -316,6 +321,7 @@ export default {
   border-bottom: 1px dotted transparent;
   z-index: 9999;
   position: relative;
+
 }
 
 .profile .tool-tip:hover::after {
@@ -327,6 +333,20 @@ export default {
   font-size: 15px;
   padding: 5px 10px;
   border: 1px solid var(--another-color);
+}
+.profile .personal-action{
+  min-height: 30px;
+  width: 350px;
+}
+
+.profile .var{
+  overflow: hidden;
+}
+
+.profile .personal-action::-webkit-scrollbar{
+  display: none;
+  width: 0px;
+  height: 0px;
 }
 
 .profile .personal-action:hover {
