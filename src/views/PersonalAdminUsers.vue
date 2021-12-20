@@ -36,7 +36,7 @@ export default {
 
       },
       offset: 0,
-      limit: 7,
+      limit: 6,
       count: 0,
       search_query: null
     }
