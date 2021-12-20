@@ -5,8 +5,8 @@
     <input v-model="phone" v-bind:id="rand" type="tel" name="phone" placeholder="Номер телефона" minlength="10" maxlength="11" required><br>
     <input v-model="oms" v-bind:id="rand" type="text" name="oms" placeholder="Номер полиса ОМС" minlength="15" maxlength="16" required><br>
     <input v-model="email" v-bind:id="rand" type="email" name="email" placeholder="Электронная почта" required><br>
-    <input v-model="password" v-bind:id="rand" type="password" name="password" placeholder="Пароль" required><br>
-    <input v-model="password_repeated" v-bind:id="rand" type="password" name="password_r" placeholder="Повторите пароль" required><br>
+    <input minlength="8" v-model="password" v-bind:id="rand" type="password" name="password" placeholder="Пароль" required><br>
+    <input minlength="8" v-model="password_repeated" v-bind:id="rand" type="password" name="password_r" placeholder="Повторите пароль" required><br>
     <input type="submit" value="Зарегестрироваться"><br>
     <router-link to="login">Уже есть аккаунта?</router-link>
   </form>
